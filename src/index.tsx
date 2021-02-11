@@ -10,7 +10,7 @@ import {
     UploadOutlined,
 } from "@ant-design/icons";
 
-import "./index.css";
+import "./index.scss";
 import "antd/dist/antd.css"; // or 'antd/dist/antd.less'
 
 const { Header, Sider, Content, Footer } = Layout;
