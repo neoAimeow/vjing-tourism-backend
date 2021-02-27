@@ -2,16 +2,11 @@ import React from "react";
 import ReactDOM from "react-dom";
 import reportWebVitals from "./reportWebVitals";
 import { Layout, Menu } from "antd";
-import {
-    MenuUnfoldOutlined,
-    MenuFoldOutlined,
-    UserOutlined,
-    VideoCameraOutlined,
-    UploadOutlined,
-} from "@ant-design/icons";
+import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
 
 import "./index.scss";
 import "antd/dist/antd.css"; // or 'antd/dist/antd.less'
+import { menus } from "./config/menu.config";
 
 const { Header, Sider, Content, Footer } = Layout;
 
@@ -34,21 +29,42 @@ class App extends React.Component {
                     collapsible
                     collapsed={this.state.collapsed}
                 >
-                    <div className="logo" />
+                    <div className="logo">未景科技</div>
                     <Menu
                         theme="dark"
                         mode="inline"
-                        defaultSelectedKeys={["1"]}
+                        defaultSelectedKeys={["0"]}
                     >
-                        <Menu.Item key="1" icon={<UserOutlined />}>
-                            nav 1123
-                        </Menu.Item>
-                        <Menu.Item key="2" icon={<VideoCameraOutlined />}>
-                            nav 2
-                        </Menu.Item>
-                        <Menu.Item key="3" icon={<UploadOutlined />}>
-                            nav 3
-                        </Menu.Item>
+                        {menus &&
+                            menus.map((item, index) => {
+                                if (item.subMenus) {
+                                    return (
+                                        <Menu.ItemGroup
+                                            title={item.title}
+                                            key={index}
+                                        >
+                                            {item.subMenus &&
+                                                item.subMenus.map(
+                                                    (subItem, subIndex) => {
+                                                        return (
+                                                            <Menu.Item
+                                                                key={`${index}-${subIndex}`}
+                                                            >
+                                                                {subItem.title}
+                                                            </Menu.Item>
+                                                        );
+                                                    }
+                                                )}
+                                        </Menu.ItemGroup>
+                                    );
+                                } else {
+                                    return (
+                                        <Menu.Item key={index}>
+                                            {item.title}
+                                        </Menu.Item>
+                                    );
+                                }
+                            })}
                     </Menu>
                 </Sider>
                 <Layout className="site-layout">
@@ -77,7 +93,7 @@ class App extends React.Component {
                         Content
                     </Content>
                     <Footer style={{ textAlign: "center" }}>
-                        Ant Design ©2018 Created by Ant UED
+                        ©2021 Created by 未景科技
                     </Footer>
                 </Layout>
             </Layout>
