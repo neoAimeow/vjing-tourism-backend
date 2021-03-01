@@ -1,7 +1,9 @@
+import TestPage from "../pages/testPage/index";
 export interface Menu {
     title: string;
     path: string;
     subMenus?: Menu[];
+    component?: any;
 }
 
 export const menus: Menu[] = [
@@ -12,10 +14,12 @@ export const menus: Menu[] = [
             {
                 title: "subtitle1",
                 path: "path1",
+                component: TestPage,
             },
             {
                 title: "subtitle2",
                 path: "path2",
+                component: TestPage,
             },
             {
                 title: "subtitle3",
@@ -30,6 +34,7 @@ export const menus: Menu[] = [
     {
         title: "title2",
         path: "path2",
+        component: TestPage,
     },
     {
         title: "title3",
