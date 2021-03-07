@@ -10,9 +10,10 @@ interface Props {}
 //     }
 // }
 
-const TestPage = (props: Props) => {
-    console.warn("page1");
-    return <div> hello test page</div>;
+const Register = (props: Props) => {
+    console.warn("Register");
+
+    return <div> hello Register page2</div>;
 };
 
-export default TestPage;
+export default Register;
