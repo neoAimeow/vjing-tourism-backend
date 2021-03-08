@@ -69,7 +69,7 @@ const Main = (props: Props) => {
                                 return (
                                     <Route
                                         exact
-                                        key={index}
+                                        key={item.path}
                                         path={item.path}
                                         component={item.component}
                                     />
