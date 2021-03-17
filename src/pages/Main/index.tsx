@@ -63,20 +63,18 @@ const Main = (props: Props) => {
                         minHeight: 280,
                     }}
                 >
-                    <Router>
-                        <Switch>
-                            {router.map((item, index) => {
-                                return (
-                                    <Route
-                                        exact
-                                        key={item.path}
-                                        path={item.path}
-                                        component={item.component}
-                                    />
-                                );
-                            })}
-                        </Switch>
-                    </Router>
+                    <Switch>
+                        {router.map((item, index) => {
+                            return (
+                                <Route
+                                    exact
+                                    key={item.path}
+                                    path={item.path}
+                                    component={item.component}
+                                />
+                            );
+                        })}
+                    </Switch>
                 </Content>
                 <Footer style={{ textAlign: "center" }}>
                     ©2021 Created by 未景科技
