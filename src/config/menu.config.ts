@@ -1,8 +1,5 @@
 import React from "react";
 import { Route } from "react-router-dom";
-
-import TestPage from "../pages/testPage/index";
-import TestPage2 from "../pages/testPage2/index";
 export interface Menu {
     title: string;
     path: string;

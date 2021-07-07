@@ -1,8 +1,5 @@
 import React from "react";
 import { Route } from "react-router-dom";
-
-import TestPage from "../pages/testPage/index";
-import TestPage2 from "../pages/testPage2/index";
 import Welcome from "../pages/Welcome/index";
 import UserList from "../pages/User/UserList/index";
 import Register from "../pages/User/Register/index";
