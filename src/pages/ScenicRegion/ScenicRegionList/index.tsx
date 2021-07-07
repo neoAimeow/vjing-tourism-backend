@@ -52,6 +52,27 @@ const ScenicRegionList = (props: Props) => {
                     width="350px"
                 />
                 <Column title="景区名字" dataIndex={["node", "displayName"]} />
+                <Column
+                    title="操作"
+                    width="230px"
+                    render={() => (
+                        <div className="column-opertaion">
+                            <Button
+                                className="column-opration-edit"
+                                type="primary"
+                            >
+                                编辑
+                            </Button>
+                            <Button
+                                className="column-opration-delete"
+                                type="default"
+                                danger
+                            >
+                                删除
+                            </Button>
+                        </div>
+                    )}
+                />
             </Table>
         </div>
     );
