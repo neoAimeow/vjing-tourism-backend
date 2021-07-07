@@ -1,8 +1,10 @@
 import React from "react";
+import "./index.scss";
 
 interface Props {}
-import { Table, Tag, Space } from "antd";
+import { Table, Tag, Space, Button, Typography } from "antd";
 import { gql, useQuery } from "@apollo/client";
+const { Title, Paragraph, Text, Link } = Typography;
 
 const { Column } = Table;
 
@@ -24,26 +26,32 @@ const str = gql`
 const ScenicRegionList = (props: Props) => {
     const { loading, error, data = {} } = useQuery(str);
     const { totalCount = 0, edges } = data.scenicRegions || {};
-    console.error(`loading`, loading);
-    console.error(`error`, error);
-    console.error(`data`, data);
 
-    console.error(`totalCount`, totalCount);
-    return loading ? (
-        <div></div>
-    ) : (
-        <div>
+    return (
+        <div className="scenic-region-list">
+            <div className="scenic-region-list-header">
+                <Title level={2}>景区管理</Title>
+                <Button
+                    className="create-button"
+                    type="primary"
+                    shape="round"
+                    size="large"
+                >
+                    创建景区
+                </Button>
+            </div>
             <Table
+                loading={loading}
                 dataSource={edges || []}
                 rowKey={(item) => item.node.id}
                 pagination={{ position: ["bottomLeft"] }}
             >
-                <Column title="景区id" dataIndex="id" key="id" />
                 <Column
-                    title="景区名字"
-                    dataIndex="node.displayName"
-                    key="node.displayName"
+                    title="景区id"
+                    dataIndex={["node", "id"]}
+                    width="350px"
                 />
+                <Column title="景区名字" dataIndex={["node", "displayName"]} />
             </Table>
         </div>
     );

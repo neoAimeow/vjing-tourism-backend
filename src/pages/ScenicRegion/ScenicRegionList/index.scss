@@ -1,0 +1,8 @@
+.scenic-region-list {
+    position: relative;
+    &-header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+}
