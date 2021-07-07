@@ -17,40 +17,7 @@ export const menus: Menu[] = [
         role: ["admin"],
     },
     {
-        title: "页面2",
-        path: "/path1",
-
-        // subMenus: [
-        //     {
-        //         title: "subtitle1",
-        //         path: "/path1",
-        //         component: TestPage,
-        //     },
-        //     {
-        //         title: "subtitle2",
-        //         path: "/path2",
-        //         component: TestPage,
-        //     },
-        //     {
-        //         title: "subtitle3",
-        //         path: "/path3",
-        //     },
-        //     {
-        //         title: "subtitle4",
-        //         path: "/path4",
-        //     },
-        // ],
-    },
-    {
-        title: "页面3",
-        path: "/path2",
-    },
-    {
-        title: "页面4",
-        path: "/path3",
-    },
-    {
-        title: "页面5",
-        path: "/path4",
+        title: "景区管理",
+        path: "/scenic-region",
     },
 ];

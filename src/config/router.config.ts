@@ -7,6 +7,10 @@ import Welcome from "../pages/Welcome/index";
 import UserList from "../pages/User/UserList/index";
 import Register from "../pages/User/Register/index";
 import Login from "../pages/User/Login/index";
+import ScenicRegionList from "../pages/ScenicRegion/ScenicRegionList";
+import CreateScenicRegion from "../pages/ScenicRegion/CreateScenicRegion";
+import UpdateScenicRegion from "../pages/ScenicRegion/UpdateScenicRegion";
+import ScenicRegionDetail from "../pages/ScenicRegion/ScenicRegionDetail";
 
 export interface Router {
     path: string;
@@ -15,6 +19,11 @@ export interface Router {
 }
 
 export const router: Router[] = [
+    {
+        path: "/",
+        // component: React.createElement(TestPage),
+        component: Welcome,
+    },
     {
         path: "/user",
         component: UserList,
@@ -30,20 +39,21 @@ export const router: Router[] = [
         ],
     },
     {
-        path: "/path2",
-        component: TestPage2,
-    },
-    {
-        path: "/path3",
-        component: TestPage2,
-    },
-    {
-        path: "/path4",
-        component: TestPage2,
-    },
-    {
-        path: "/",
-        // component: React.createElement(TestPage),
-        component: Welcome,
+        path: "/scenic-region",
+        component: ScenicRegionList,
+        routes: [
+            {
+                path: "/scenic-region/create",
+                component: CreateScenicRegion,
+            },
+            {
+                path: "/scenic-region/update",
+                component: UpdateScenicRegion,
+            },
+            {
+                path: "/scenic-region/detail",
+                component: ScenicRegionDetail,
+            },
+        ],
     },
 ];
