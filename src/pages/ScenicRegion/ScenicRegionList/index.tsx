@@ -2,10 +2,12 @@ import React from "react";
 import "./index.scss";
 
 interface Props {}
-import { Table, Tag, Space, Button, Typography } from "antd";
+import { Table, Tag, Space, Button, Typography, Modal } from "antd";
 import { gql, useQuery } from "@apollo/client";
-const { Title, Paragraph, Text, Link } = Typography;
+import { useCallback } from "react";
 
+const { Title, Paragraph, Text, Link } = Typography;
+const { confirm } = Modal;
 const { Column } = Table;
 
 const str = gql`
@@ -27,6 +29,24 @@ const ScenicRegionList = (props: Props) => {
     const { loading, error, data = {} } = useQuery(str);
     const { totalCount = 0, edges } = data.scenicRegions || {};
 
+    const createButtonClicked = useCallback(() => {
+        console.error(`clicked`);
+    }, []);
+
+    const editButtonClicked = useCallback((id: string) => {
+        console.error(`delete button, ${JSON.stringify(id)}`);
+    }, []);
+
+    const deleteButtonClicked = useCallback((id: string, name: string) => {
+        confirm({
+            title: `再次提醒`,
+            content: `是否确定要删除${name}这个景区?`,
+            onOk() {
+                console.log("OK");
+            },
+        });
+    }, []);
+
     return (
         <div className="scenic-region-list">
             <div className="scenic-region-list-header">
@@ -36,6 +56,7 @@ const ScenicRegionList = (props: Props) => {
                     type="primary"
                     shape="round"
                     size="large"
+                    onClick={createButtonClicked}
                 >
                     创建景区
                 </Button>
@@ -55,11 +76,14 @@ const ScenicRegionList = (props: Props) => {
                 <Column
                     title="操作"
                     width="230px"
-                    render={() => (
+                    render={(edges) => (
                         <div className="column-opertaion">
                             <Button
                                 className="column-opration-edit"
                                 type="primary"
+                                onClick={() => {
+                                    editButtonClicked(edges?.node?.id);
+                                }}
                             >
                                 编辑
                             </Button>
@@ -67,6 +91,12 @@ const ScenicRegionList = (props: Props) => {
                                 className="column-opration-delete"
                                 type="default"
                                 danger
+                                onClick={() => {
+                                    deleteButtonClicked(
+                                        edges?.node?.id,
+                                        edges?.node?.displayName
+                                    );
+                                }}
                             >
                                 删除
                             </Button>
