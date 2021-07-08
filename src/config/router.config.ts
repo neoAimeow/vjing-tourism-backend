@@ -4,10 +4,10 @@ import Welcome from "../pages/Welcome/index";
 import UserList from "../pages/User/UserList/index";
 import Register from "../pages/User/Register/index";
 import Login from "../pages/User/Login/index";
-import ScenicRegionList from "../pages/ScenicRegion/ScenicRegionList";
-import CreateScenicRegion from "../pages/ScenicRegion/CreateScenicRegion";
-import UpdateScenicRegion from "../pages/ScenicRegion/UpdateScenicRegion";
-import ScenicRegionDetail from "../pages/ScenicRegion/ScenicRegionDetail";
+import ScenicRegionList from "../pages/ScenicRegion/components/ScenicRegionList";
+import CreateScenicRegion from "../pages/ScenicRegion/components/CreateScenicRegion";
+import UpdateScenicRegion from "../pages/ScenicRegion/components/UpdateScenicRegion";
+import ScenicRegionDetail from "../pages/ScenicRegion/components/ScenicRegionDetail";
 
 export interface Router {
     name: string;

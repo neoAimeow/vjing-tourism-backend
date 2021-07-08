@@ -5,9 +5,9 @@ interface Props {}
 import { Table, Tag, Space, Button, Typography, Modal } from "antd";
 import { gql, useQuery } from "@apollo/client";
 import { useCallback } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 
-const { Title, Paragraph, Text, Link } = Typography;
+const { Title, Paragraph, Text } = Typography;
 const { confirm } = Modal;
 const { Column } = Table;
 
@@ -32,13 +32,11 @@ const ScenicRegionList = (props: Props) => {
     let history = useHistory();
 
     const createButtonClicked = useCallback(() => {
-        console.error(`clicked`, history);
-
         history.push("/scenic-region/create");
     }, []);
 
     const editButtonClicked = useCallback((id: string) => {
-        console.error(`delete button, ${JSON.stringify(id)}`);
+        history.push({ pathname: "/scenic-region/update", state: { id } });
     }, []);
 
     const deleteButtonClicked = useCallback((id: string, name: string) => {
@@ -73,10 +71,26 @@ const ScenicRegionList = (props: Props) => {
             >
                 <Column
                     title="景区id"
-                    dataIndex={["node", "id"]}
+                    // dataIndex={["node", "id"]}
                     width="350px"
+                    render={(edges) => (
+                        <div>
+                            <Link to="/scenic-region/detail">
+                                {edges?.node?.id}
+                            </Link>
+                        </div>
+                    )}
                 />
-                <Column title="景区名字" dataIndex={["node", "displayName"]} />
+                <Column
+                    title="景区名字"
+                    render={(edges) => (
+                        <div>
+                            <Link to="/scenic-region/detail">
+                                {edges?.node?.displayName}
+                            </Link>
+                        </div>
+                    )}
+                />
                 <Column
                     title="操作"
                     width="230px"
