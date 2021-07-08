@@ -10,47 +10,52 @@ import UpdateScenicRegion from "../pages/ScenicRegion/UpdateScenicRegion";
 import ScenicRegionDetail from "../pages/ScenicRegion/ScenicRegionDetail";
 
 export interface Router {
+    name: string;
     path: string;
-    routes?: Router[];
+    // routes?: Router[];
     component?: any;
 }
 
 export const router: Router[] = [
     {
+        name: "根目录",
         path: "/",
         // component: React.createElement(TestPage),
         component: Welcome,
     },
     {
-        path: "/user",
+        name: "用户列表",
+        path: "/user/userList",
         component: UserList,
-        routes: [
-            {
-                path: "/user/register",
-                component: Register,
-            },
-            {
-                path: "/user/login",
-                component: Login,
-            },
-        ],
     },
     {
-        path: "/scenic-region",
+        name: "用户注册",
+        path: "/user/register",
+        component: Register,
+    },
+    {
+        name: "用户登录",
+        path: "/user/login",
+        component: Login,
+    },
+    {
+        name: "景点列表",
+        path: "/scenic-region/list",
         component: ScenicRegionList,
-        routes: [
-            {
-                path: "/scenic-region/create",
-                component: CreateScenicRegion,
-            },
-            {
-                path: "/scenic-region/update",
-                component: UpdateScenicRegion,
-            },
-            {
-                path: "/scenic-region/detail",
-                component: ScenicRegionDetail,
-            },
-        ],
+    },
+    {
+        name: "景点创建",
+        path: "/scenic-region/create",
+        component: CreateScenicRegion,
+    },
+    {
+        name: "景点更新",
+        path: "/scenic-region/update",
+        component: UpdateScenicRegion,
+    },
+    {
+        name: "景点详情",
+        path: "/scenic-region/detail",
+        component: ScenicRegionDetail,
     },
 ];

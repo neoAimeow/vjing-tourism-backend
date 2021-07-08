@@ -5,6 +5,7 @@ interface Props {}
 import { Table, Tag, Space, Button, Typography, Modal } from "antd";
 import { gql, useQuery } from "@apollo/client";
 import { useCallback } from "react";
+import { useHistory } from "react-router-dom";
 
 const { Title, Paragraph, Text, Link } = Typography;
 const { confirm } = Modal;
@@ -28,9 +29,12 @@ const str = gql`
 const ScenicRegionList = (props: Props) => {
     const { loading, error, data = {} } = useQuery(str);
     const { totalCount = 0, edges } = data.scenicRegions || {};
+    let history = useHistory();
 
     const createButtonClicked = useCallback(() => {
-        console.error(`clicked`);
+        console.error(`clicked`, history);
+
+        history.push("/scenic-region/create");
     }, []);
 
     const editButtonClicked = useCallback((id: string) => {

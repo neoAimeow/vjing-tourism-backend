@@ -68,9 +68,13 @@ const Main = (props: Props) => {
                             return (
                                 <Route
                                     exact
-                                    key={item.path}
+                                    key={index}
                                     path={item.path}
-                                    component={item.component}
+                                    render={(props) => (
+                                        // pass the sub-routes down to keep nesting
+                                        <item.component {...props} />
+                                    )}
+                                    // component={item.component}
                                 />
                             );
                         })}
