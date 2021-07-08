@@ -71,10 +71,8 @@ const Main = (props: Props) => {
                                     key={index}
                                     path={item.path}
                                     render={(props) => (
-                                        // pass the sub-routes down to keep nesting
                                         <item.component {...props} />
                                     )}
-                                    // component={item.component}
                                 />
                             );
                         })}
