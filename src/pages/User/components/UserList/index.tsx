@@ -6,6 +6,7 @@ import { Table, Tag, Space, Button, Typography, PageHeader, Modal } from "antd";
 import { gql, useQuery } from "@apollo/client";
 import { useCallback } from "react";
 import { useHistory } from "react-router-dom";
+import { IUser } from "../../model/user.model";
 const { Title, Paragraph, Text, Link } = Typography;
 const { confirm } = Modal;
 const { Column } = Table;
@@ -36,12 +37,11 @@ const UserList = (props: Props) => {
         history.push("/user/create");
     }, []);
 
-    const updateButtonClicked = useCallback((id: string) => {
-        console.warn(id);
-        history.push({ pathname: "/user/update", state: { id } });
+    const updateButtonClicked = useCallback((user: IUser) => {
+        history.push({ pathname: "/user/update", state: user });
     }, []);
 
-    const deleteButtonClicked = useCallback((user: { id: string; name: string }) => {
+    const deleteButtonClicked = useCallback((user: IUser) => {
         confirm({
             title: `再次提醒`,
             content: `是否确定要删除${user.name}这个用户?`,
@@ -77,7 +77,7 @@ const UserList = (props: Props) => {
                                 className="column-opration-edit"
                                 type="primary"
                                 onClick={() => {
-                                    updateButtonClicked(edges?.node?.id);
+                                    updateButtonClicked(edges?.node);
                                 }}
                             >
                                 编辑
