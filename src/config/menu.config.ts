@@ -17,4 +17,8 @@ export const menus: Menu[] = [
         title: "景区管理",
         path: "/scenic-region/list",
     },
+    {
+        title: "用户管理",
+        path: "/user/list",
+    },
 ];

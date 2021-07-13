@@ -53,31 +53,18 @@ const ScenicRegionList = (props: Props) => {
         <div className="scenic-region-list">
             <div className="scenic-region-list-header">
                 <Title level={2}>景区管理</Title>
-                <Button
-                    className="create-button"
-                    type="primary"
-                    shape="round"
-                    size="large"
-                    onClick={createButtonClicked}
-                >
+                <Button className="create-button" type="primary" shape="round" size="large" onClick={createButtonClicked}>
                     创建景区
                 </Button>
             </div>
-            <Table
-                loading={loading}
-                dataSource={edges || []}
-                rowKey={(item) => item.node.id}
-                pagination={{ position: ["bottomLeft"] }}
-            >
+            <Table loading={loading} dataSource={edges || []} rowKey={(item) => item.node.id} pagination={{ position: ["bottomLeft"] }}>
                 <Column
                     title="景区id"
                     // dataIndex={["node", "id"]}
                     width="350px"
                     render={(edges) => (
                         <div>
-                            <Link to="/scenic-region/detail">
-                                {edges?.node?.id}
-                            </Link>
+                            <Link to="/scenic-region/detail">{edges?.node?.id}</Link>
                         </div>
                     )}
                 />
@@ -85,9 +72,7 @@ const ScenicRegionList = (props: Props) => {
                     title="景区名字"
                     render={(edges) => (
                         <div>
-                            <Link to="/scenic-region/detail">
-                                {edges?.node?.displayName}
-                            </Link>
+                            <Link to="/scenic-region/detail">{edges?.node?.displayName}</Link>
                         </div>
                     )}
                 />
@@ -110,10 +95,7 @@ const ScenicRegionList = (props: Props) => {
                                 type="default"
                                 danger
                                 onClick={() => {
-                                    deleteButtonClicked(
-                                        edges?.node?.id,
-                                        edges?.node?.displayName
-                                    );
+                                    deleteButtonClicked(edges?.node?.id, edges?.node?.displayName);
                                 }}
                             >
                                 删除

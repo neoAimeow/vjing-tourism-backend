@@ -1,9 +1,7 @@
-import React from "react";
-import { Route } from "react-router-dom";
 import Welcome from "../pages/Welcome/index";
-import UserList from "../pages/User/UserList/index";
-import Register from "../pages/User/Register/index";
-import Login from "../pages/User/Login/index";
+import UserList from "../pages/User/components/UserList/index";
+import Register from "../pages/User/components/Register/index";
+import Login from "../pages/User/components/Login/index";
 import ScenicRegionList from "../pages/ScenicRegion/components/ScenicRegionList";
 import CreateScenicRegion from "../pages/ScenicRegion/components/CreateScenicRegion";
 import UpdateScenicRegion from "../pages/ScenicRegion/components/UpdateScenicRegion";
@@ -20,12 +18,11 @@ export const router: Router[] = [
     {
         name: "根目录",
         path: "/",
-        // component: React.createElement(TestPage),
         component: Welcome,
     },
     {
         name: "用户列表",
-        path: "/user/userList",
+        path: "/user/list",
         component: UserList,
     },
     {
