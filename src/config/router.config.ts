@@ -7,6 +7,7 @@ import ScenicRegionList from "../pages/ScenicRegion/components/ScenicRegionList"
 import CreateScenicRegion from "../pages/ScenicRegion/components/CreateScenicRegion";
 import UpdateScenicRegion from "../pages/ScenicRegion/components/UpdateScenicRegion";
 import ScenicRegionDetail from "../pages/ScenicRegion/components/ScenicRegionDetail";
+import UpdatePassword from "../pages/User/components/UpdatePassword";
 
 export interface Router {
     name: string;
@@ -35,6 +36,11 @@ export const router: Router[] = [
         name: "更新用户",
         path: "/user/update",
         component: UpdateUser,
+    },
+    {
+        name: "修改密码",
+        path: "/user/updatePassword",
+        component: UpdatePassword,
     },
     {
         name: "用户登录",

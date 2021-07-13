@@ -33,8 +33,11 @@ const UserList = (props: Props) => {
     let history = useHistory();
 
     const createButtonClicked = useCallback(() => {
-        console.warn(`111`);
         history.push("/user/create");
+    }, []);
+
+    const updatePasswordButtonClicked = useCallback(() => {
+        history.push("/user/updatePassword");
     }, []);
 
     const updateButtonClicked = useCallback((user: IUser) => {
@@ -59,6 +62,9 @@ const UserList = (props: Props) => {
                 extra={[
                     <Button className="create-button" type="primary" shape="round" size="large" onClick={createButtonClicked}>
                         创建用户
+                    </Button>,
+                    <Button className="update-password-button" type="primary" shape="round" size="large" onClick={updatePasswordButtonClicked}>
+                        修改密码
                     </Button>,
                 ]}
             />
