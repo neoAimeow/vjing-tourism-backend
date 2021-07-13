@@ -1,6 +1,7 @@
 import Welcome from "../pages/Welcome/index";
 import UserList from "../pages/User/components/UserList/index";
-import Register from "../pages/User/components/Register/index";
+import CreateUser from "../pages/User/components/CreateUser/index";
+import UpdateUser from "../pages/User/components/UpdateUser/index";
 import Login from "../pages/User/components/Login/index";
 import ScenicRegionList from "../pages/ScenicRegion/components/ScenicRegionList";
 import CreateScenicRegion from "../pages/ScenicRegion/components/CreateScenicRegion";
@@ -26,9 +27,14 @@ export const router: Router[] = [
         component: UserList,
     },
     {
-        name: "用户注册",
-        path: "/user/register",
-        component: Register,
+        name: "创建用户",
+        path: "/user/create",
+        component: CreateUser,
+    },
+    {
+        name: "更新用户",
+        path: "/user/update",
+        component: UpdateUser,
     },
     {
         name: "用户登录",

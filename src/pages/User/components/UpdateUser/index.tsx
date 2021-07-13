@@ -10,10 +10,10 @@ interface Props {}
 //     }
 // }
 
-const Register = (props: Props) => {
-    console.warn("Register");
+const UpdateUser = (props: Props) => {
+    console.warn("loginPage");
 
-    return <div> hello Register page2</div>;
+    return <div> hello Login page2</div>;
 };
 
-export default Register;
+export default UpdateUser;
