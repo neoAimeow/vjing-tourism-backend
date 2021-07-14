@@ -4,13 +4,13 @@ import React, { useCallback, useEffect } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import { showError, showLoading } from "../../../../utils/message.config";
 import { IUser } from "../../model/user.model";
-import { createUserGql } from "../../request/gql";
+import { updateUserGql } from "../../request/gql";
 const { confirm } = Modal;
 
 interface Props {}
 
 const UpdateUser = (props: Props) => {
-    const [createUser, { loading: mutationLoading, error: mutationError, data }] = useMutation(createUserGql, { onError: (ex) => {} });
+    const [updateUserMutation, { loading: mutationLoading, error: mutationError, data }] = useMutation(updateUserGql, { onError: (ex) => {} });
     const history = useHistory();
 
     useEffect(() => {
@@ -22,13 +22,11 @@ const UpdateUser = (props: Props) => {
     }, [mutationLoading]);
 
     const onFinish = useCallback((result) => {
-        createUser({
+        updateUserMutation({
             variables: {
                 data: {
                     name: result.name,
-                    email: result.email,
                     role: result.role,
-                    password: result.password,
                 },
             },
         });
@@ -41,12 +39,11 @@ const UpdateUser = (props: Props) => {
 
     const { state } = useLocation<IUser>();
     const { id, name, email, role } = state || {};
-
     return (
         <div>
             <PageHeader ghost={false} onBack={() => history.goBack()} title="修改用户" subTitle={email} />
             <Form
-                initialValues={{ role: "user", name }}
+                initialValues={{ role, name }}
                 name="control-hooks"
                 labelCol={{
                     span: 2,
@@ -62,8 +59,8 @@ const UpdateUser = (props: Props) => {
                 </Form.Item>
                 <Form.Item name="role" label="权限" rules={[{ required: false }]}>
                     <Radio.Group size="large">
-                        <Radio.Button value="admin">管理员</Radio.Button>
-                        <Radio.Button value="user">普通用户</Radio.Button>
+                        <Radio.Button value="ADMIN">管理员</Radio.Button>
+                        <Radio.Button value="USER">普通用户</Radio.Button>
                     </Radio.Group>
                 </Form.Item>
 

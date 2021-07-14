@@ -1,30 +1,45 @@
+import { showError, showLoading } from "@/utils/message.config";
+import { useMutation } from "@apollo/client";
 import { Button, Form, Input, Modal, PageHeader, Radio, Switch } from "antd";
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useHistory, useLocation } from "react-router-dom";
+import { changePasswordGql } from "../../request/gql";
 const { confirm } = Modal;
 
 interface Props {}
 
 const UpdatePassword = (props: Props) => {
+    const [changePasswordMutation, { loading: mutationLoading, error: mutationError, data }] = useMutation(changePasswordGql, { onError: (ex) => {} });
+    const history = useHistory();
+
+    useEffect(() => {
+        mutationError && showError(mutationError.message);
+    }, [mutationError]);
+
+    useEffect(() => {
+        showLoading(mutationLoading);
+    }, [mutationLoading]);
+
     const onFinish = useCallback((result) => {
-        console.warn(JSON.stringify(result));
+        changePasswordMutation({
+            variables: {
+                data: {
+                    oldPassword: result.oldPassword,
+                    newPassword: result.password,
+                },
+            },
+        });
     }, []);
 
     const onFinishFailed = useCallback((error) => {
         const { values, errorFields = [] } = error || {};
-        confirm({
-            title: `温馨提醒您`,
-            content: `${errorFields[0]?.errors}`,
-            onOk() {},
-        });
+        showError(`${errorFields[0]?.errors}`);
     }, []);
-    const history = useHistory();
 
     return (
         <div>
             <PageHeader ghost={false} onBack={() => history.goBack()} title="修改密码" />
             <Form
-                initialValues={{ role: "user", name }}
                 name="control-hooks"
                 labelCol={{
                     span: 2,

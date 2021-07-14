@@ -26,3 +26,25 @@ export const createUserGql = gql`
         }
     }
 `;
+
+export const updateUserGql = gql`
+    mutation UpdateUser($data: UpdateUserInput!) {
+        updateUser(data: $data) {
+            id
+            name
+            email
+            role
+        }
+    }
+`;
+
+export const changePasswordGql = gql`
+    mutation ChangePassword($data: ChangePasswordInput!) {
+        changePassword(data: $data) {
+            id
+            name
+            email
+            role
+        }
+    }
+`;

@@ -10,7 +10,7 @@ const { confirm } = Modal;
 interface Props {}
 
 const CreateUser = (props: Props) => {
-    const [createUser, { loading: mutationLoading, error: mutationError, data }] = useMutation(createUserGql, { onError: (ex) => {} });
+    const [createUserMutation, { loading: mutationLoading, error: mutationError, data }] = useMutation(createUserGql, { onError: (ex) => {} });
     const history = useHistory();
 
     useEffect(() => {
@@ -22,7 +22,7 @@ const CreateUser = (props: Props) => {
     }, [mutationLoading]);
 
     const onFinish = useCallback((result) => {
-        createUser({
+        createUserMutation({
             variables: {
                 data: {
                     name: result.name,

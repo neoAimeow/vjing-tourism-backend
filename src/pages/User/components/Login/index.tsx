@@ -2,14 +2,6 @@ import React from "react";
 
 interface Props {}
 
-// class TestPage extends Component<Props> {
-//     state = {};
-
-//     render() {
-//         return <div> hello test page</div>;
-//     }
-// }
-
 const Login = (props: Props) => {
     console.warn("loginPage");
 
