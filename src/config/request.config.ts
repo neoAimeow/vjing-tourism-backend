@@ -1,6 +1,16 @@
-import { ApolloClient, InMemoryCache } from "@apollo/client";
+import { ApolloClient, InMemoryCache, HttpLink, from } from "@apollo/client";
+import { onError } from "@apollo/client/link/error";
+
+const errorLink = onError(({ graphQLErrors, networkError }) => {
+    if (graphQLErrors) graphQLErrors.map(({ message, locations, path }) => console.log(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`));
+    if (networkError) console.log(`[Network error]: ${networkError}`);
+});
+
+const httpLink = new HttpLink({
+    uri: "http://localhost:3001/graphql",
+});
 
 export const apolloClient = new ApolloClient({
-    uri: "http://localhost:3001/graphql",
+    link: from([errorLink, httpLink]),
     cache: new InMemoryCache(),
 });

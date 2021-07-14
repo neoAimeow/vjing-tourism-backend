@@ -20,11 +20,9 @@ class App extends React.Component {
 }
 
 ReactDOM.render(
-    <React.StrictMode>
-        <ApolloProvider client={apolloClient}>
-            <App />
-        </ApolloProvider>
-    </React.StrictMode>,
+    <ApolloProvider client={apolloClient}>
+        <App />
+    </ApolloProvider>,
     document.getElementById("root")
 );
 

@@ -1,29 +1,49 @@
-import { Button, Form, Input, Modal, PageHeader, Radio, Switch } from "antd";
+import { ApolloError, useMutation } from "@apollo/client";
+import { Button, Form, Input, Modal, PageHeader, Radio, Switch, notification, message } from "antd";
 import React, { useCallback } from "react";
+import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
+import { hideLoading, showError, showLoading } from "../../../../utils/message.config";
+import { createUserGql } from "../../request/gql";
 const { confirm } = Modal;
 
 interface Props {}
 
 const CreateUser = (props: Props) => {
+    const [createUser, { loading: mutationLoading, error: mutationError, data }] = useMutation(createUserGql, { onError: (ex) => {} });
+    const history = useHistory();
+
+    useEffect(() => {
+        mutationError && showError(mutationError.message);
+    }, [mutationError]);
+
+    useEffect(() => {
+        showLoading(mutationLoading);
+    }, [mutationLoading]);
+
     const onFinish = useCallback((result) => {
-        console.warn(JSON.stringify(result));
+        createUser({
+            variables: {
+                data: {
+                    name: result.name,
+                    email: result.email,
+                    role: result.role,
+                    password: result.password,
+                },
+            },
+        });
     }, []);
 
     const onFinishFailed = useCallback((error) => {
         const { values, errorFields = [] } = error || {};
-        confirm({
-            title: `温馨提醒您`,
-            content: `${errorFields[0]?.errors}`,
-            onOk() {},
-        });
+        showError(`${errorFields[0]?.errors}`);
     }, []);
-    const history = useHistory();
+
     return (
         <div>
             <PageHeader ghost={false} onBack={() => history.goBack()} title="创建用户" />
             <Form
-                initialValues={{ role: "user" }}
+                initialValues={{ role: "USER" }}
                 name="control-hooks"
                 labelCol={{
                     span: 2,
@@ -87,8 +107,8 @@ const CreateUser = (props: Props) => {
                 </Form.Item>
                 <Form.Item name="role" label="权限" rules={[{ required: false }]}>
                     <Radio.Group size="large">
-                        <Radio.Button value="admin">管理员</Radio.Button>
-                        <Radio.Button value="user">普通用户</Radio.Button>
+                        <Radio.Button value="ADMIN">管理员</Radio.Button>
+                        <Radio.Button value="USER">普通用户</Radio.Button>
                     </Radio.Group>
                 </Form.Item>
 

@@ -7,28 +7,13 @@ import { gql, useQuery } from "@apollo/client";
 import { useCallback } from "react";
 import { useHistory } from "react-router-dom";
 import { IUser } from "../../model/user.model";
+import { usersGql } from "../../request/gql";
 const { Title, Paragraph, Text, Link } = Typography;
 const { confirm } = Modal;
 const { Column } = Table;
 
-const str = gql`
-    query User {
-        users(first: 10, skip: 10) {
-            totalCount
-            edges {
-                node {
-                    id
-                    name
-                    email
-                    role
-                }
-            }
-        }
-    }
-`;
-
 const UserList = (props: Props) => {
-    const { loading, error, data = {} } = useQuery(str);
+    const { loading, error, data = {} } = useQuery(usersGql, { variables: { skip: 10, first: 10 } });
     const { totalCount = 0, edges } = data.users || {};
     let history = useHistory();
 

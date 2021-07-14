@@ -3,14 +3,7 @@ import ReactDOM from "react-dom";
 import { Layout, Menu } from "antd";
 import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
 
-import {
-    BrowserRouter as Router,
-    Route,
-    Link,
-    Switch,
-    useLocation,
-    withRouter,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, Switch, useLocation, withRouter } from "react-router-dom";
 
 import "./index.scss";
 import "antd/dist/antd.css"; // or 'antd/dist/antd.less'
@@ -21,7 +14,6 @@ const { Header, Sider, Content, Footer } = Layout;
 interface Props {}
 
 const Main = (props: Props) => {
-    console.warn("page2");
     const location = useLocation();
 
     const [selectedKeys, setSelectedKeys] = useState([location.pathname]);
@@ -35,12 +27,7 @@ const Main = (props: Props) => {
         <Layout>
             <Sider trigger={null} collapsible collapsed={false}>
                 <div className="logo">未景科技</div>
-                <Menu
-                    theme="dark"
-                    mode="inline"
-                    defaultSelectedKeys={["/"]}
-                    selectedKeys={selectedKeys}
-                >
+                <Menu theme="dark" mode="inline" defaultSelectedKeys={["/"]} selectedKeys={selectedKeys}>
                     {menus.map((item, index) => {
                         return (
                             <Menu.Item key={item.path}>
@@ -51,10 +38,7 @@ const Main = (props: Props) => {
                 </Menu>
             </Sider>
             <Layout className="site-layout">
-                <Header
-                    className="site-layout-background"
-                    style={{ padding: 0 }}
-                ></Header>
+                <Header className="site-layout-background" style={{ padding: 0 }}></Header>
                 <Content
                     className="site-layout-background"
                     style={{
@@ -65,22 +49,11 @@ const Main = (props: Props) => {
                 >
                     <Switch>
                         {router.map((item, index) => {
-                            return (
-                                <Route
-                                    exact
-                                    key={index}
-                                    path={item.path}
-                                    render={(props) => (
-                                        <item.component {...props} />
-                                    )}
-                                />
-                            );
+                            return <Route exact key={index} path={item.path} render={(props) => <item.component {...props} />} />;
                         })}
                     </Switch>
                 </Content>
-                <Footer style={{ textAlign: "center" }}>
-                    ©2021 Created by 未景科技
-                </Footer>
+                <Footer style={{ textAlign: "center" }}>©2021 Created by 未景科技</Footer>
             </Layout>
         </Layout>
     );
