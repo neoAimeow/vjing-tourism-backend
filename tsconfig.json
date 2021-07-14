@@ -1,4 +1,5 @@
 {
+  "extends": "./tsconfig.extend.json",
   "compilerOptions": {
     "target": "es2020",
     "moduleResolution": "node",
@@ -23,14 +24,9 @@
   "include": [
     "src"
   ],
-   // NEW: Options for file/directory watching
-   "watchOptions": {
-    // Use native file system events for files and directories
+  "watchOptions": {
     "watchFile": "useFsEvents",
     "watchDirectory": "useFsEvents",
-
-    // Poll files for updates more frequently
-    // when they're updated a lot.
     "fallbackPolling": "dynamicPriority"
   }
 }
