@@ -1,27 +1,47 @@
+import { useMutation } from "@apollo/client";
 import { Button, Form, Input, Modal, PageHeader, Radio, Switch } from "antd";
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useHistory, useLocation } from "react-router-dom";
+import { showError, showLoading } from "../../../../utils/message.config";
 import { IUser } from "../../model/user.model";
+import { createUserGql } from "../../request/gql";
 const { confirm } = Modal;
 
 interface Props {}
 
 const UpdateUser = (props: Props) => {
+    const [createUser, { loading: mutationLoading, error: mutationError, data }] = useMutation(createUserGql, { onError: (ex) => {} });
+    const history = useHistory();
+
+    useEffect(() => {
+        mutationError && showError(mutationError.message);
+    }, [mutationError]);
+
+    useEffect(() => {
+        showLoading(mutationLoading);
+    }, [mutationLoading]);
+
     const onFinish = useCallback((result) => {
-        console.warn(JSON.stringify(result));
+        createUser({
+            variables: {
+                data: {
+                    name: result.name,
+                    email: result.email,
+                    role: result.role,
+                    password: result.password,
+                },
+            },
+        });
     }, []);
 
     const onFinishFailed = useCallback((error) => {
         const { values, errorFields = [] } = error || {};
-        confirm({
-            title: `温馨提醒您`,
-            content: `${errorFields[0]?.errors}`,
-            onOk() {},
-        });
+        showError(`${errorFields[0]?.errors}`);
     }, []);
-    const history = useHistory();
+
     const { state } = useLocation<IUser>();
     const { id, name, email, role } = state || {};
+
     return (
         <div>
             <PageHeader ghost={false} onBack={() => history.goBack()} title="修改用户" subTitle={email} />
