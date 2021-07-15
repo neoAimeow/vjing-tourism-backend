@@ -1,105 +1,114 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./index.scss";
 
 interface Props {}
-import { Table, Tag, Space, Button, Typography, Modal } from "antd";
+import { Table, Tag, Space, Button, Typography, Modal, PageHeader } from "antd";
 import { gql, useQuery } from "@apollo/client";
 import { useCallback } from "react";
 import { useHistory, Link } from "react-router-dom";
+import DeleteButton from "@/components/DeleteButton";
+import PrimaryButton from "@/components/PrimaryButton";
+import { deleteSceincRegionGql, scenicRegionGql } from "../../request/gql";
+import { changePageVariable, initialPageVariable } from "@/config/pagination.config";
+import { PaginationArgs } from "@/models/common";
+import { IScenicRegionNode } from "../../model/scenic-region.model";
 
 const { Title, Paragraph, Text } = Typography;
 const { confirm } = Modal;
 const { Column } = Table;
 
-const str = gql`
-    query ScenicRegion {
-        scenicRegions(first: 10, skip: 10) {
-            totalCount
-            edges {
-                node {
-                    id
-                    displayName
-                    location
-                }
-            }
-        }
-    }
-`;
-
+const pageSize: number = 10;
 const ScenicRegionList = (props: Props) => {
-    const { loading, error, data = {} } = useQuery(str);
-    const { totalCount = 0, edges } = data.scenicRegions || {};
+    const [scenicRegionList, setScenicRegion] = useState<IScenicRegionNode[]>();
+    const [total, setTotal] = useState<number>();
+    const [currentPage, setCurrentPage] = useState<number>();
+    const [variables = initialPageVariable(), setVariables] = useState<PaginationArgs>();
+
+    const { loading, data, refetch } = useQuery(scenicRegionGql, { variables });
+
     let history = useHistory();
 
-    const createButtonClicked = useCallback(() => {
-        history.push("/scenic-region/create");
-    }, []);
+    useEffect(() => {
+        if (data) {
+            console.warn(data);
+            const { scenicRegions } = data;
+            const { totalCount, edges = [] } = scenicRegions || {};
+            setScenicRegion(edges);
+            setTotal(totalCount);
+        }
+    }, [data]);
 
-    const editButtonClicked = useCallback((id: string) => {
-        history.push({ pathname: "/scenic-region/update", state: { id } });
-    }, []);
+    const fetchList = useCallback(
+        (currentPage, isNextPage: boolean) => {
+            setCurrentPage(currentPage);
 
-    const deleteButtonClicked = useCallback((id: string, name: string) => {
-        confirm({
-            title: `再次提醒`,
-            content: `是否确定要删除${name}这个景区?`,
-            onOk() {
-                console.log("OK");
-            },
-        });
-    }, []);
+            setVariables(
+                changePageVariable(isNextPage, scenicRegionList, pageSize, (item) => {
+                    return item?.node?.id;
+                })
+            );
+        },
+        [variables, scenicRegionList]
+    );
 
     return (
         <div className="scenic-region-list">
-            <div className="scenic-region-list-header">
-                <Title level={2}>景区管理</Title>
-                <Button className="create-button" type="primary" shape="round" size="large" onClick={createButtonClicked}>
-                    创建景区
-                </Button>
-            </div>
-            <Table loading={loading} dataSource={edges || []} rowKey={(item) => item.node.id} pagination={{ position: ["bottomLeft"] }}>
-                <Column
-                    title="景区id"
-                    // dataIndex={["node", "id"]}
-                    width="350px"
-                    render={(edges) => (
-                        <div>
-                            <Link to="/scenic-region/detail">{edges?.node?.id}</Link>
-                        </div>
-                    )}
-                />
-                <Column
-                    title="景区名字"
-                    render={(edges) => (
-                        <div>
-                            <Link to="/scenic-region/detail">{edges?.node?.displayName}</Link>
-                        </div>
-                    )}
-                />
+            <PageHeader
+                ghost={false}
+                title="景区管理"
+                subTitle="景区列表"
+                extra={[
+                    <PrimaryButton
+                        buttonTitle="创建景区"
+                        onClick={() => {
+                            history.push("/scenic-region/create");
+                        }}
+                    />,
+                ]}
+            />
+
+            <Table
+                loading={loading}
+                dataSource={scenicRegionList || []}
+                rowKey={(item) => item.node?.id || 0}
+                pagination={{
+                    position: ["bottomLeft"],
+                    current: currentPage,
+                    total: total,
+                    onChange: (page) => {
+                        fetchList(page, page > (currentPage || 0));
+                    },
+                }}
+                // onRow={(record) => {
+                //     return {
+                //         onClick: (event) => {
+                //             history.push({ pathname: "/scenic-region/detail" });
+                //         },
+                //     };
+                // }}
+            >
+                <Column title="景区id" dataIndex={["node", "id"]} width="350px" />
+                <Column title="景区名字" dataIndex={["node", "displayName"]} />
                 <Column
                     title="操作"
                     width="230px"
-                    render={(edges) => (
+                    render={(edge) => (
                         <div className="column-opertaion">
-                            <Button
-                                className="column-opration-edit"
-                                type="primary"
+                            <PrimaryButton
+                                buttonTitle="编辑"
                                 onClick={() => {
-                                    editButtonClicked(edges?.node?.id);
+                                    history.push({ pathname: "/scenic-region/update", state: { id: edge?.node?.id } });
                                 }}
-                            >
-                                编辑
-                            </Button>
-                            <Button
-                                className="column-opration-delete"
-                                type="default"
-                                danger
-                                onClick={() => {
-                                    deleteButtonClicked(edges?.node?.id, edges?.node?.displayName);
+                            />
+                            <DeleteButton
+                                buttonTitle="删除景区"
+                                deleteGql={deleteSceincRegionGql}
+                                deleteId={edge?.node?.id}
+                                alertContent={`是否确定要删除${edge?.node?.displayName}这个景区?`}
+                                refetch={() => {
+                                    refetch();
                                 }}
-                            >
-                                删除
-                            </Button>
+                            />
                         </div>
                     )}
                 />

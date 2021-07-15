@@ -27,7 +27,7 @@ const DeleteButton = (props: Props) => {
 
     useEffect(() => {
         if (deleteResult) {
-            showSuccess("删除用户成功", () => {});
+            showSuccess("删除成功", () => {});
             refetch && refetch();
         }
     }, [deleteResult]);
@@ -44,6 +44,8 @@ const DeleteButton = (props: Props) => {
         <Button
             className="column-opration-delete"
             type="default"
+            shape="round"
+            size="large"
             danger
             onClick={() => {
                 confirm({
