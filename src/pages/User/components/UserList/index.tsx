@@ -1,7 +1,5 @@
 import React, { useEffect } from "react";
 import "./index.scss";
-
-interface Props {}
 import { Table, Tag, Space, Button, Typography, PageHeader, Modal } from "antd";
 import { gql, useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import { useCallback } from "react";
@@ -11,11 +9,15 @@ import { deleteUserGql, usersGql } from "../../request/gql";
 import { showError, showLoading, showSuccess } from "@/utils/message.config";
 import { useState } from "react";
 import { PaginationArgs } from "@/models/common";
-import { initialPageVariable, nextPageVariable, previousPageVariable } from "@/config/pagination.config";
+import { changePageVariable, initialPageVariable, nextPageVariable, previousPageVariable } from "@/config/pagination.config";
+import DeleteButton from "@/components/DeleteButton";
+import PrimaryButton from "@/components/PrimaryButton";
 const { confirm } = Modal;
 const { Column } = Table;
 
 const pageSize: number = 10;
+
+interface Props {}
 
 const UserList = (props: Props) => {
     const [userList, setUsers] = useState<IUserNode[]>();
@@ -24,7 +26,6 @@ const UserList = (props: Props) => {
     const [variables = initialPageVariable(), setVariables] = useState<PaginationArgs>();
 
     const { loading, data, refetch } = useQuery(usersGql, { variables: variables });
-    const [deleteUserMutation, { loading: deleteLoading, error: deleteError, data: deleteResult }] = useMutation(deleteUserGql, { onError: (ex) => {} });
 
     let history = useHistory();
 
@@ -37,36 +38,15 @@ const UserList = (props: Props) => {
         }
     }, [data]);
 
-    useEffect(() => {
-        deleteError && showError(deleteError.message);
-    }, [deleteError]);
-
-    useEffect(() => {
-        showLoading(deleteLoading);
-    }, [deleteLoading]);
-
-    useEffect(() => {
-        if (deleteResult) {
-            showSuccess("删除用户成功", () => {});
-            refetch();
-        }
-    }, [deleteResult]);
-
     const fetchList = useCallback(
-        (after: boolean) => {
-            if (!after) {
-                setVariables(
-                    nextPageVariable(userList, pageSize, (item) => {
-                        return item?.node?.id;
-                    })
-                );
-            } else {
-                setVariables(
-                    previousPageVariable(userList, pageSize, (item) => {
-                        return item?.node?.id;
-                    })
-                );
-            }
+        (currentPage, isNextPage: boolean) => {
+            setCurrentPage(currentPage);
+
+            setVariables(
+                changePageVariable(isNextPage, userList, pageSize, (item) => {
+                    return item?.node?.id;
+                })
+            );
         },
         [variables, userList]
     );
@@ -78,28 +58,18 @@ const UserList = (props: Props) => {
                 title="用户管理"
                 subTitle="用户列表"
                 extra={[
-                    <Button
-                        className="create-button"
-                        type="primary"
-                        shape="round"
-                        size="large"
+                    <PrimaryButton
+                        buttonTitle="创建用户"
                         onClick={() => {
                             history.push("/user/create");
                         }}
-                    >
-                        创建用户
-                    </Button>,
-                    <Button
-                        className="update-password-button"
-                        type="primary"
-                        shape="round"
-                        size="large"
+                    />,
+                    <PrimaryButton
+                        buttonTitle="修改密码"
                         onClick={() => {
                             history.push("/user/updatePassword");
                         }}
-                    >
-                        修改密码
-                    </Button>,
+                    />,
                 ]}
             />
 
@@ -112,8 +82,7 @@ const UserList = (props: Props) => {
                     current: currentPage,
                     total: total,
                     onChange: (page) => {
-                        fetchList(page < (currentPage || 0));
-                        setCurrentPage(page);
+                        fetchList(page, page > (currentPage || 0));
                     },
                 }}
             >
@@ -126,35 +95,22 @@ const UserList = (props: Props) => {
                     width="230px"
                     render={(edge) => (
                         <div className="column-opertaion">
-                            <Button
-                                className="column-opration-edit"
-                                type="primary"
+                            <PrimaryButton
+                                buttonTitle="编辑"
                                 onClick={() => {
                                     history.push({ pathname: "/user/update", state: edge?.node });
                                 }}
-                            >
-                                编辑
-                            </Button>
-                            <Button
-                                className="column-opration-delete"
-                                type="default"
-                                danger
-                                onClick={() => {
-                                    confirm({
-                                        title: `再次提醒`,
-                                        content: `是否确定要删除${edge?.node?.name}这个用户?`,
-                                        onOk() {
-                                            deleteUserMutation({
-                                                variables: {
-                                                    id: edge?.node?.id || "",
-                                                },
-                                            });
-                                        },
-                                    });
+                            />
+
+                            <DeleteButton
+                                buttonTitle="删除用户"
+                                deleteGql={deleteUserGql}
+                                deleteId={edge?.node?.id}
+                                alertContent={`是否确定要删除${edge?.node?.name}这个用户?`}
+                                refetch={() => {
+                                    refetch();
                                 }}
-                            >
-                                删除
-                            </Button>
+                            />
                         </div>
                     )}
                 />

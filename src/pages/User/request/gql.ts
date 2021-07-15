@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { DocumentNode, gql } from "@apollo/client";
 
 export const usersGql = gql`
     query User($after: String, $before: String, $first: Int, $last: Int, $orderBy: UserOrder) {
@@ -49,7 +49,7 @@ export const changePasswordGql = gql`
     }
 `;
 
-export const deleteUserGql = gql`
+export const deleteUserGql: DocumentNode = gql`
     mutation DeleteUser($id: String!) {
         deleteUser(id: $id) {
             id

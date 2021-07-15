@@ -14,7 +14,7 @@ export function nextPageVariable<T>(items?: T[], pageSize?: number, id?: (item?:
         last: undefined,
     };
 }
-export function previousPageVariable<T>(items?: T[], pageSize?: number, id?: (item?: T) => string | undefined) {
+export function previousPageVariable<T>(items?: T[], pageSize?: number, id?: (item?: T) => string | undefined): PaginationArgs {
     const firstData = items ? items[0] : undefined;
     const idStr = id && id(firstData);
     return {
@@ -23,4 +23,12 @@ export function previousPageVariable<T>(items?: T[], pageSize?: number, id?: (it
         after: undefined,
         first: undefined,
     };
+}
+
+export function changePageVariable<T>(isNextPage: boolean, items?: T[], pageSize?: number, id?: (item?: T) => string | undefined): PaginationArgs {
+    if (isNextPage) {
+        return nextPageVariable(items, pageSize, id);
+    } else {
+        return previousPageVariable(items, pageSize, id);
+    }
 }
