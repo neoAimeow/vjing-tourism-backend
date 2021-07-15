@@ -9,7 +9,7 @@ const { confirm } = Modal;
 interface Props {}
 
 const UpdatePassword = (props: Props) => {
-    const [changePasswordMutation, { loading: mutationLoading, error: mutationError, data }] = useMutation(changePasswordGql, { onError: (ex) => {} });
+    const [changePasswordMutation, { loading: mutationLoading, error: mutationError }] = useMutation(changePasswordGql, { onError: (ex) => {} });
     const history = useHistory();
 
     useEffect(() => {
@@ -32,7 +32,7 @@ const UpdatePassword = (props: Props) => {
     }, []);
 
     const onFinishFailed = useCallback((error) => {
-        const { values, errorFields = [] } = error || {};
+        const { errorFields = [] } = error || {};
         showError(`${errorFields[0]?.errors}`);
     }, []);
 

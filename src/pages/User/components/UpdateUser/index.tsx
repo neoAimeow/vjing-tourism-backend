@@ -10,7 +10,7 @@ const { confirm } = Modal;
 interface Props {}
 
 const UpdateUser = (props: Props) => {
-    const [updateUserMutation, { loading: mutationLoading, error: mutationError, data }] = useMutation(updateUserGql, { onError: (ex) => {} });
+    const [updateUserMutation, { loading: mutationLoading, error: mutationError }] = useMutation(updateUserGql, { onError: (ex) => {} });
     const history = useHistory();
 
     useEffect(() => {

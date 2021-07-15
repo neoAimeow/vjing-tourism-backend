@@ -6,3 +6,12 @@ export interface IUser {
     name: string;
     role: string;
 }
+
+export interface IUserNode {
+    node?: IUser;
+}
+
+export interface IUserPagination {
+    totalCount?: number;
+    edges?: IUserNode[];
+}

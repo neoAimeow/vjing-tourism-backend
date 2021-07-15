@@ -1,60 +1,132 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./index.scss";
 
 interface Props {}
 import { Table, Tag, Space, Button, Typography, PageHeader, Modal } from "antd";
-import { gql, useQuery } from "@apollo/client";
+import { gql, useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import { useCallback } from "react";
 import { useHistory } from "react-router-dom";
-import { IUser } from "../../model/user.model";
-import { usersGql } from "../../request/gql";
+import { IUser, IUserNode, IUserPagination } from "../../model/user.model";
+import { deleteUserGql, usersGql } from "../../request/gql";
+import { showError, showLoading, showSuccess } from "@/utils/message.config";
+import { useState } from "react";
+import { PaginationArgs } from "@/models/common";
 const { Title, Paragraph, Text, Link } = Typography;
 const { confirm } = Modal;
 const { Column } = Table;
 
+const pageSize: number = 10;
+
 const UserList = (props: Props) => {
-    const { loading, error, data = {} } = useQuery(usersGql, { variables: { skip: 10, first: 10 } });
-    const { totalCount = 0, edges } = data.users || {};
+    const [userList, setUsers] = useState<IUserNode[]>();
+    const [total, setTotal] = useState<number>();
+    const [currentPage, setCurrentPage] = useState<number>();
+    const [variables = { first: pageSize, before: undefined, after: undefined, last: undefined }, setVariables] = useState<PaginationArgs>();
+
+    const { loading, data, refetch } = useQuery(usersGql, { variables: variables });
+    const [deleteUserMutation, { loading: deleteLoading, error: deleteError, data: deleteResult }] = useMutation(deleteUserGql, { onError: (ex) => {} });
+
     let history = useHistory();
 
-    const createButtonClicked = useCallback(() => {
-        history.push("/user/create");
-    }, []);
+    useEffect(() => {
+        if (data) {
+            const { users } = data;
+            const { totalCount, edges = [] } = users || {};
+            setUsers(edges);
+            setTotal(totalCount);
+        }
+    }, [data]);
 
-    const updatePasswordButtonClicked = useCallback(() => {
-        history.push("/user/updatePassword");
-    }, []);
+    useEffect(() => {
+        console.warn(JSON.stringify(variables));
+    }, [variables]);
 
-    const updateButtonClicked = useCallback((user: IUser) => {
-        history.push({ pathname: "/user/update", state: user });
-    }, []);
+    useEffect(() => {
+        deleteError && showError(deleteError.message);
+    }, [deleteError]);
 
-    const deleteButtonClicked = useCallback((user: IUser) => {
-        confirm({
-            title: `再次提醒`,
-            content: `是否确定要删除${user.name}这个用户?`,
-            onOk() {
-                console.log("OK");
-            },
-        });
-    }, []);
+    useEffect(() => {
+        showLoading(deleteLoading);
+    }, [deleteLoading]);
+
+    useEffect(() => {
+        if (deleteResult) {
+            showSuccess("删除用户成功", () => {
+                refetch();
+            });
+        }
+    }, [deleteResult]);
+
+    const fetchList = useCallback(
+        (after: boolean) => {
+            if (!after) {
+                const lastData = userList ? userList[userList.length - 1] : undefined;
+                console.warn(lastData?.node?.id);
+                setVariables({
+                    after: lastData?.node?.id,
+                    first: pageSize,
+                    before: undefined,
+                    last: undefined,
+                });
+            } else {
+                const firstData = userList ? userList[0] : undefined;
+                setVariables({
+                    before: firstData?.node?.id,
+                    last: pageSize,
+                    after: undefined,
+                    first: undefined,
+                });
+            }
+        },
+        [variables, userList]
+    );
+
     return (
-        <div className="scenic-region-list">
+        <div className="user-list">
             <PageHeader
                 ghost={false}
                 title="用户管理"
                 subTitle="用户列表"
                 extra={[
-                    <Button className="create-button" type="primary" shape="round" size="large" onClick={createButtonClicked}>
+                    <Button
+                        className="create-button"
+                        type="primary"
+                        shape="round"
+                        size="large"
+                        onClick={() => {
+                            history.push("/user/create");
+                        }}
+                    >
                         创建用户
                     </Button>,
-                    <Button className="update-password-button" type="primary" shape="round" size="large" onClick={updatePasswordButtonClicked}>
+                    <Button
+                        className="update-password-button"
+                        type="primary"
+                        shape="round"
+                        size="large"
+                        onClick={() => {
+                            history.push("/user/updatePassword");
+                        }}
+                    >
                         修改密码
                     </Button>,
                 ]}
             />
 
-            <Table loading={loading} dataSource={edges || []} rowKey={(item) => item.node.id} pagination={{ position: ["bottomLeft"] }}>
+            <Table
+                loading={loading}
+                dataSource={userList || []}
+                rowKey={(item) => item.node?.id || 0}
+                pagination={{
+                    position: ["bottomLeft"],
+                    current: currentPage,
+                    total: total,
+                    onChange: (page) => {
+                        fetchList(page < (currentPage || 0));
+                        setCurrentPage(page);
+                    },
+                }}
+            >
                 <Column title="用户id" dataIndex={["node", "id"]} width="350px" />
                 <Column title="用户名字" dataIndex={["node", "name"]} />
                 <Column title="用户邮箱" dataIndex={["node", "email"]} />
@@ -62,13 +134,13 @@ const UserList = (props: Props) => {
                 <Column
                     title="操作"
                     width="230px"
-                    render={(edges) => (
+                    render={(edge) => (
                         <div className="column-opertaion">
                             <Button
                                 className="column-opration-edit"
                                 type="primary"
                                 onClick={() => {
-                                    updateButtonClicked(edges?.node);
+                                    history.push({ pathname: "/user/update", state: edge?.node });
                                 }}
                             >
                                 编辑
@@ -78,7 +150,17 @@ const UserList = (props: Props) => {
                                 type="default"
                                 danger
                                 onClick={() => {
-                                    deleteButtonClicked(edges?.node);
+                                    confirm({
+                                        title: `再次提醒`,
+                                        content: `是否确定要删除${edge?.node?.name}这个用户?`,
+                                        onOk() {
+                                            deleteUserMutation({
+                                                variables: {
+                                                    id: edge?.node?.id || "",
+                                                },
+                                            });
+                                        },
+                                    });
                                 }}
                             >
                                 删除

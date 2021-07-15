@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
 export const usersGql = gql`
-    query User($first: Int, $skip: Int) {
-        users(first: $first, skip: $skip) {
+    query User($after: String, $before: String, $first: Int, $last: Int, $orderBy: UserOrder) {
+        users(after: $after, before: $before, first: $first, last: $last, orderBy: $orderBy) {
             totalCount
             edges {
                 node {
@@ -41,6 +41,17 @@ export const updateUserGql = gql`
 export const changePasswordGql = gql`
     mutation ChangePassword($data: ChangePasswordInput!) {
         changePassword(data: $data) {
+            id
+            name
+            email
+            role
+        }
+    }
+`;
+
+export const deleteUserGql = gql`
+    mutation DeleteUser($id: String!) {
+        deleteUser(id: $id) {
             id
             name
             email
