@@ -10,6 +10,8 @@ export const scenicRegionGql: DocumentNode = gql`
                     displayName
                     locationLat
                     locationLng
+                    updatedAt
+                    createdAt
                 }
             }
         }
@@ -17,21 +19,25 @@ export const scenicRegionGql: DocumentNode = gql`
 `;
 
 export const createSceincRegionGql: DocumentNode = gql`
-    mutation createSceincRegionGql($data: SignupInput!) {
-        createScenicRegion(data: $data) {
+    mutation createSceincRegionGql($lang: String, $regionInfoInput: CreateScenicRegionInfoInput!, $regionInput: CreateScenicRegionInput!) {
+        createScenicRegion(lang: $lang, regionInfoInput: $regionInfoInput, regionInput: $regionInput) {
             id
             displayName
-            location
+            createdAt
+            sliceState
+            updatedAt
         }
     }
 `;
 
 export const updateSceincRegionGql: DocumentNode = gql`
-    mutation updateSceincRegionGql($data: UpdateUserInput!) {
-        updateScenicRegion(data: $data) {
+    mutation updateSceincRegionGql($id: String!, $regionInfoInput: CreateScenicRegionInfoInput!) {
+        updateScenicRegion(id: $id, regionInfoInput: $regionInfoInput) {
             id
             displayName
-            location
+            createdAt
+            sliceState
+            updatedAt
         }
     }
 `;
