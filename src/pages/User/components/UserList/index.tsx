@@ -11,7 +11,6 @@ import { deleteUserGql, usersGql } from "../../request/gql";
 import { showError, showLoading, showSuccess } from "@/utils/message.config";
 import { useState } from "react";
 import { PaginationArgs } from "@/models/common";
-const { Title, Paragraph, Text, Link } = Typography;
 const { confirm } = Modal;
 const { Column } = Table;
 
@@ -36,10 +35,6 @@ const UserList = (props: Props) => {
             setTotal(totalCount);
         }
     }, [data]);
-
-    useEffect(() => {
-        console.warn(JSON.stringify(variables));
-    }, [variables]);
 
     useEffect(() => {
         deleteError && showError(deleteError.message);
