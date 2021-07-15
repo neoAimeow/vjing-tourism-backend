@@ -11,6 +11,7 @@ import { deleteUserGql, usersGql } from "../../request/gql";
 import { showError, showLoading, showSuccess } from "@/utils/message.config";
 import { useState } from "react";
 import { PaginationArgs } from "@/models/common";
+import { initialPageVariable, nextPageVariable, previousPageVariable } from "@/config/pagination.config";
 const { confirm } = Modal;
 const { Column } = Table;
 
@@ -20,7 +21,7 @@ const UserList = (props: Props) => {
     const [userList, setUsers] = useState<IUserNode[]>();
     const [total, setTotal] = useState<number>();
     const [currentPage, setCurrentPage] = useState<number>();
-    const [variables = { first: pageSize, before: undefined, after: undefined, last: undefined }, setVariables] = useState<PaginationArgs>();
+    const [variables = initialPageVariable(), setVariables] = useState<PaginationArgs>();
 
     const { loading, data, refetch } = useQuery(usersGql, { variables: variables });
     const [deleteUserMutation, { loading: deleteLoading, error: deleteError, data: deleteResult }] = useMutation(deleteUserGql, { onError: (ex) => {} });
@@ -46,31 +47,25 @@ const UserList = (props: Props) => {
 
     useEffect(() => {
         if (deleteResult) {
-            showSuccess("删除用户成功", () => {
-                refetch();
-            });
+            showSuccess("删除用户成功", () => {});
+            refetch();
         }
     }, [deleteResult]);
 
     const fetchList = useCallback(
         (after: boolean) => {
             if (!after) {
-                const lastData = userList ? userList[userList.length - 1] : undefined;
-                console.warn(lastData?.node?.id);
-                setVariables({
-                    after: lastData?.node?.id,
-                    first: pageSize,
-                    before: undefined,
-                    last: undefined,
-                });
+                setVariables(
+                    nextPageVariable(userList, pageSize, (item) => {
+                        return item?.node?.id;
+                    })
+                );
             } else {
-                const firstData = userList ? userList[0] : undefined;
-                setVariables({
-                    before: firstData?.node?.id,
-                    last: pageSize,
-                    after: undefined,
-                    first: undefined,
-                });
+                setVariables(
+                    previousPageVariable(userList, pageSize, (item) => {
+                        return item?.node?.id;
+                    })
+                );
             }
         },
         [variables, userList]
