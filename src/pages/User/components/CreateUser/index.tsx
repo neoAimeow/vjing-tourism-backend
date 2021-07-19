@@ -44,7 +44,6 @@ const CreateUser = (props: Props) => {
             <PageHeader ghost={false} onBack={() => history.goBack()} title="创建用户" />
             <Form
                 initialValues={{ role: "USER" }}
-                name="control-hooks"
                 labelCol={{
                     span: 2,
                 }}

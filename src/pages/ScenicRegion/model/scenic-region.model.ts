@@ -17,8 +17,7 @@ export interface IScenicRegionPagination {
 }
 
 export interface IScenicRegionParam {
-    displayName: string;
-
+    displayName?: string;
     zoom?: number;
     minZoom?: number;
     maxZoom?: number;
@@ -34,13 +33,13 @@ export interface IScenicRegionParam {
 }
 
 export interface IScenicRegionInfoParam {
-    handDrawingUri: string;
-    layer: string;
-    layerDisplayName: string;
+    handDrawingUri?: string;
+    layer?: string;
+    layerDisplayName?: string;
     name: string;
-    ticketUrl: string;
-    title: string;
-    vrUrl: string;
+    ticketUrl?: string;
+    title?: string;
+    vrUrl?: string;
 }
 
 export enum SliceState {
