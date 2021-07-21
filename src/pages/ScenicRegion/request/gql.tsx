@@ -65,7 +65,11 @@ export const scenicRegionDetailGql: DocumentNode = gql`
 
 export const createSceincRegionGql: DocumentNode = gql`
     ${scenicRegionFragment}
-    mutation createSceincRegion($lang: String, $regionInfoInput: CreateScenicRegionInfoInput!, $regionInput: CreateScenicRegionInput!) {
+    mutation createSceincRegion(
+        $lang: String
+        $regionInfoInput: CreateScenicRegionInfoInput!
+        $regionInput: CreateScenicRegionInput!
+    ) {
         createScenicRegion(lang: $lang, regionInfoInput: $regionInfoInput, regionInput: $regionInput) {
             ...ScenicRegionFragment
         }
@@ -74,8 +78,16 @@ export const createSceincRegionGql: DocumentNode = gql`
 
 export const createScenicRegionInfoGql: DocumentNode = gql`
     ${scenicRegionInfoFragment}
-    mutation createSceincRegion($lang: String!, $scenicRegionId: String!, $regionInfoInput: CreateScenicRegionInfoInput!) {
-        createScenicRegionInfoWithLang(lang: $lang, scenicRegionId: $scenicRegionId, regionInfoInput: $regionInfoInput) {
+    mutation createSceincRegion(
+        $lang: String!
+        $scenicRegionId: String!
+        $regionInfoInput: CreateScenicRegionInfoInput!
+    ) {
+        createScenicRegionInfoWithLang(
+            lang: $lang
+            scenicRegionId: $scenicRegionId
+            regionInfoInput: $regionInfoInput
+        ) {
             ...ScenicRegionInfoFragment
         }
     }

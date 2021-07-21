@@ -17,8 +17,3 @@ export enum SliceState {
     SLICING,
     SUCCESS,
 }
-
-export function getLangWithKey(key: Language): string {
-    switch (key) {
-    }
-}

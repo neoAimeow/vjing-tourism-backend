@@ -1,9 +1,11 @@
+import { Language } from "@/models/common";
 import { IScenicRegion, IScenicRegionInfo } from "@/models/scenic-region.model";
 import { createScenicRegionInfoGql } from "@/pages/ScenicRegion/request/gql";
 import { showError, showLoading } from "@/utils/message.config";
 import { useMutation } from "@apollo/client";
-import { Card, Col, Descriptions, Form, Input, PageHeader, Row } from "antd";
+import { Card, Col, Descriptions, Form, Input, PageHeader, Radio, Row } from "antd";
 import React, { useCallback, useEffect, useState } from "react";
+import { $enum } from "ts-enum-util";
 
 interface Props {
     scenicRegionInfo?: IScenicRegionInfo;
@@ -13,7 +15,7 @@ interface Props {
 const ScenicRegionInfoView = (props: Props) => {
     const { scenicRegionInfo, onDataChange } = props;
     const [inputData = scenicRegionInfo, setInput] = useState<IScenicRegionInfo>();
-
+    const languages = $enum(Language).getEntries();
     useEffect(() => {
         if (inputData) {
             onDataChange && onDataChange(inputData);
@@ -114,6 +116,26 @@ const ScenicRegionInfoView = (props: Props) => {
                                     setInput({ ...inputData, ticketUrl: e?.target?.value });
                                 }}
                             />
+                        </Form.Item>
+                    </Col>
+                </Row>{" "}
+                <Row gutter={20}>
+                    <Col span={10}>
+                        <Form.Item name="lang" label="语言选择" rules={[{ required: true, message: "请选择语言" }]}>
+                            <Radio.Group>
+                                {languages.map((value) => {
+                                    return (
+                                        <Radio.Button
+                                            value={value[0]}
+                                            onChange={(e) => {
+                                                setInput({ ...inputData, lang: e?.target?.value });
+                                            }}
+                                        >
+                                            {value[1]}
+                                        </Radio.Button>
+                                    );
+                                })}
+                            </Radio.Group>
                         </Form.Item>
                     </Col>
                 </Row>

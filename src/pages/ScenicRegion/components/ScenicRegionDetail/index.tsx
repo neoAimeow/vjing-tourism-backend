@@ -2,7 +2,7 @@ import PrimaryButton from "@/components/PrimaryButton";
 import ScenicRegionHeader from "@/components/ScenicRegionHeader";
 import { Language } from "@/models/common";
 import { IScenicRegion, IScenicRegionInfo } from "@/models/scenic-region.model";
-import { showError, showLoading } from "@/utils/message.config";
+import { showError, showLoading, showSuccess } from "@/utils/message.config";
 import { useMutation, useQuery } from "@apollo/client";
 import { Card, PageHeader } from "antd";
 import React, { useState } from "react";
@@ -16,6 +16,7 @@ import {
 } from "../../request/gql";
 import { showScenicRegionInfoModal } from "../../utils/utils";
 import ScenicRegionInfoView from "./components/ScenicRegionInfoView";
+import { $enum } from "ts-enum-util";
 
 interface Props {}
 
@@ -39,20 +40,45 @@ const ScenicRegionDetail = (props: Props) => {
     });
 
     useEffect(() => {
-        createMutationError && showError(createMutationError.message);
-    }, [createMutationError]);
+        if (updateMutationError) {
+            showError(updateMutationError.message);
+        }
+        if (createMutationError) {
+            showError(createMutationError.message);
+        }
+    }, [updateMutationError, createMutationError]);
 
     useEffect(() => {
         showLoading(updateMutationLoading);
     }, [updateMutationLoading]);
 
     useEffect(() => {
-        updateMutationError && showError(updateMutationError.message);
-    }, [updateMutationError]);
-
-    useEffect(() => {
         showLoading(createMutationLoading);
     }, [createMutationLoading]);
+
+    useEffect(() => {
+        console.warn(createMutationData);
+        if (
+            createMutationData &&
+            createMutationData.createScenicRegionInfoWithLang &&
+            createMutationData.createScenicRegionInfoWithLang.id
+        ) {
+            refetch();
+            showSuccess("创建成功");
+        }
+    }, [createMutationData]);
+
+    useEffect(() => {
+        console.warn(updateMutationData);
+        if (
+            updateMutationData &&
+            updateMutationData.updateScenicRegionInfo &&
+            updateMutationData.updateScenicRegionInfo.id
+        ) {
+            refetch();
+            showSuccess("更新成功");
+        }
+    }, [updateMutationData]);
 
     useEffect(() => {
         if (data) {
@@ -74,8 +100,21 @@ const ScenicRegionDetail = (props: Props) => {
                         onClick={() => {
                             showScenicRegionInfoModal((data, resolve) => {
                                 console.warn(data);
-                                createScenicRegionInfo({});
-
+                                createScenicRegionInfo({
+                                    variables: {
+                                        lang: data.lang,
+                                        scenicRegionId: state.id,
+                                        regionInfoInput: {
+                                            handDrawingUri: data.handDrawingUri,
+                                            layer: data.layer,
+                                            layerDisplayName: data.layersDisplayName,
+                                            name: data.name,
+                                            ticketUrl: data.ticketUrl,
+                                            title: data.title,
+                                            vrUrl: data.vrUrl,
+                                        },
+                                    },
+                                });
                                 resolve(1);
                             });
                         }}
@@ -98,9 +137,37 @@ const ScenicRegionDetail = (props: Props) => {
                 <ScenicRegionHeader scenicRegion={scenicRegion} />
             </PageHeader>
             {scenicRegionInfos?.map((value, key) => {
-                console.warn(value);
                 return (
-                    <Card style={{ marginTop: 16 }} type="inner" title={value.lang} extra={<a href="#">修改</a>}>
+                    <Card
+                        style={{ marginTop: 16 }}
+                        type="inner"
+                        title={$enum(Language).getValueOrDefault(value.lang)}
+                        extra={[
+                            <PrimaryButton
+                                buttonTitle="修改"
+                                size="small"
+                                onClick={() => {
+                                    showScenicRegionInfoModal((data, resolve) => {
+                                        updateScenicRegionInfo({
+                                            variables: {
+                                                id: data.id,
+                                                regionInfoInput: {
+                                                    handDrawingUri: data.handDrawingUri,
+                                                    layer: data.layer,
+                                                    layerDisplayName: data.layersDisplayName,
+                                                    name: data.name,
+                                                    ticketUrl: data.ticketUrl,
+                                                    title: data.title,
+                                                    vrUrl: data.vrUrl,
+                                                },
+                                            },
+                                        });
+                                        resolve(1);
+                                    }, value);
+                                }}
+                            />,
+                        ]}
+                    >
                         <ScenicRegionInfoView scenicRegionInfo={value} />
                     </Card>
                 );
