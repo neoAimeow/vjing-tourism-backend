@@ -5,15 +5,16 @@ import "./index.scss";
 
 interface Props {
     zoom?: number;
+    showInput?: boolean;
     onCoordinateChange?: (coordinate: LngLatPos) => void;
 }
 
 let _mapInstance: any = undefined;
 
 const MapComp = (props: Props) => {
-    const { zoom = 10, onCoordinateChange } = props || {};
-    const [latitude, setLatitude] = useState<number>();
-    const [longitude, setLogitude] = useState<number>();
+    const { zoom = 10, onCoordinateChange, showInput = true } = props || {};
+    const [latitude = 39.9, setLatitude] = useState<number>();
+    const [longitude = 116.4, setLogitude] = useState<number>();
 
     const mapEvents = {
         created: (mapInstance: any) => {
@@ -36,28 +37,30 @@ const MapComp = (props: Props) => {
 
     return (
         <div className="map-container">
-            <div className="coordinate-input-container">
-                <div className="coordinate-input">
-                    <div className="coordinate-input-title">输入Latitude</div>
-                    <Input
-                        className="coordinate-input-component"
-                        onChange={(e) => {
-                            const lat = Number(e?.target?.value);
-                            setLatitude(lat);
-                        }}
-                    />
+            {showInput && (
+                <div className="coordinate-input-container">
+                    <div className="coordinate-input">
+                        <div className="coordinate-input-title">输入Latitude</div>
+                        <Input
+                            className="coordinate-input-component"
+                            onChange={(e) => {
+                                const lat = Number(e?.target?.value);
+                                setLatitude(lat);
+                            }}
+                        />
+                    </div>
+                    <div>
+                        <div className="coordinate-input-title">输入Longitude</div>
+                        <Input
+                            className="coordinate-input-component"
+                            onChange={(e) => {
+                                const lng = Number(e?.target?.value);
+                                setLogitude(lng);
+                            }}
+                        />
+                    </div>
                 </div>
-                <div>
-                    <div className="coordinate-input-title">输入Longitude</div>
-                    <Input
-                        className="coordinate-input-component"
-                        onChange={(e) => {
-                            const lng = Number(e?.target?.value);
-                            setLogitude(lng);
-                        }}
-                    />
-                </div>
-            </div>
+            )}
             <div className="coordinate-container">
                 <div className="coordinate-label">
                     <div className="coordinate-title">latitude:</div>

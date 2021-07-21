@@ -11,7 +11,7 @@ import PrimaryButton from "@/components/PrimaryButton";
 import { deleteSceincRegionGql, scenicRegionGql } from "../../request/gql";
 import { changePageVariable, initialPageVariable } from "@/config/pagination.config";
 import { PaginationArgs } from "@/models/common";
-import { IScenicRegionNode } from "../../model/scenic-region.model";
+import { IScenicRegionNode } from "@/models/scenic-region.model";
 
 const { Title, Paragraph, Text } = Typography;
 const { confirm } = Modal;
@@ -79,25 +79,18 @@ const ScenicRegionList = (props: Props) => {
                         fetchList(page, page > (currentPage || 0));
                     },
                 }}
-                // onRow={(record) => {
-                //     return {
-                //         onClick: (event) => {
-                //             history.push({ pathname: "/scenic-region/detail" });
-                //         },
-                //     };
-                // }}
             >
                 <Column title="景区id" dataIndex={["node", "id"]} width="350px" />
-                <Column title="景区名字" dataIndex={["node", "displayName"]} />
+                <Column title="景区名字" dataIndex={["node", "displayName"]} width="350px" />
                 <Column
                     title="操作"
-                    width="230px"
+                    width="350px"
                     render={(edge) => (
                         <div className="column-opertaion">
                             <PrimaryButton
-                                buttonTitle="编辑"
+                                buttonTitle="查看详请"
                                 onClick={() => {
-                                    history.push({ pathname: "/scenic-region/update", state: { id: edge?.node?.id } });
+                                    history.push({ pathname: "/scenic-region/detail", state: edge?.node });
                                 }}
                             />
                             <DeleteButton

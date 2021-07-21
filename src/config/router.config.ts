@@ -8,6 +8,8 @@ import CreateScenicRegion from "../pages/ScenicRegion/components/CreateScenicReg
 import UpdateScenicRegion from "../pages/ScenicRegion/components/UpdateScenicRegion";
 import ScenicRegionDetail from "../pages/ScenicRegion/components/ScenicRegionDetail";
 import UpdatePassword from "../pages/User/components/UpdatePassword";
+import ScenicSpotList from "@/pages/ScenicSpot/components/ScenicSpotList";
+import CreateScenicSpot from "@/pages/ScenicSpot/components/CreateScenicSpot";
 
 export interface Router {
     name: string;
@@ -48,23 +50,34 @@ export const router: Router[] = [
         component: Login,
     },
     {
-        name: "景点列表",
+        name: "景区列表",
         path: "/scenic-region/list",
         component: ScenicRegionList,
     },
     {
-        name: "景点创建",
+        name: "景区创建",
         path: "/scenic-region/create",
         component: CreateScenicRegion,
     },
     {
-        name: "景点更新",
+        name: "景区更新",
         path: "/scenic-region/update",
         component: UpdateScenicRegion,
     },
     {
-        name: "景点详情",
+        name: "景区详情",
         path: "/scenic-region/detail",
         component: ScenicRegionDetail,
+    },
+
+    {
+        name: "景点列表",
+        path: "/scenic-spot/list",
+        component: ScenicSpotList,
+    },
+    {
+        name: "创建景点",
+        path: "/scenic-spot/create",
+        component: CreateScenicSpot,
     },
 ];

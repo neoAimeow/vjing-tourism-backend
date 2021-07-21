@@ -6,13 +6,19 @@ export interface PaginationArgs {
 }
 
 export enum Language {
-    CHINESE,
-    ENGLISH,
-    JAPANESE,
-    KOREAN,
+    CHINESE = "中文",
+    ENGLISH = "英文",
+    JAPANESE = "日语",
+    KOREAN = "韩语",
 }
 
-export interface Coordinate {
-    latitude: number;
-    longitude: number;
+export enum SliceState {
+    PENDING,
+    SLICING,
+    SUCCESS,
+}
+
+export function getLangWithKey(key: Language): string {
+    switch (key) {
+    }
 }

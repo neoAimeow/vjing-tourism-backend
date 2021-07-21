@@ -7,8 +7,9 @@ import { LngLat, LngLatPos, Map, Marker } from "react-amap";
 
 import { createSceincRegionGql } from "../../request/gql";
 import { useState } from "react";
-import { Coordinate } from "@/models/common";
 import MapComp from "@/components/MapComp";
+import PrimaryButton from "@/components/PrimaryButton";
+import { showSelectLocationModal } from "@/utils/modal.config";
 
 interface Props {}
 
@@ -33,12 +34,19 @@ const CreateScenicRegion = (props: Props) => {
                     displayName: result.name,
                     enableNavigation: result.enableNavigation,
                     enablePoiLanguageSwitch: result.enablePoiLanguageSwitch,
-
                     locationLat: center?.lat || 0,
                     locationLng: center?.lng || 0,
+                    zoom: Number(result.zoom),
+                    minZoom: Number(result.minZoom),
+                    maxZoom: Number(result.maxZoom),
                 },
                 regionInfoInput: {
                     name: result.name,
+                    title: result.title,
+                    layer: result.layer,
+                    layerDisplayName: result.layerDisplayName,
+                    vrUrl: result.vrUrl,
+                    ticketUrl: result.ticketUrl,
                 },
             },
         });
@@ -95,19 +103,16 @@ const CreateScenicRegion = (props: Props) => {
                 <Form.Item name="enablePoiLanguageSwitch" label="enablePoiLanguageSwitch">
                     <Switch />
                 </Form.Item>
+                <Form.Item name="zoom" label="zoom" rules={[{ required: false }]}>
+                    <Input />
+                </Form.Item>
+                <Form.Item name="minZoom" label="minZoom" rules={[{ required: false }]}>
+                    <Input />
+                </Form.Item>
+                <Form.Item name="maxZoom" label="maxZoom" rules={[{ required: false }]}>
+                    <Input />
+                </Form.Item>
                 <Form.Item name="coordinate" label="选择坐标">
-                    <Form.Item name="address" label="地址">
-                        <Input />
-                    </Form.Item>
-                    <Form.Item name="zoom" label="zoom" rules={[{ required: false }]}>
-                        <Input />
-                    </Form.Item>
-                    <Form.Item name="minZoom" label="minZoom" rules={[{ required: false }]}>
-                        <Input />
-                    </Form.Item>
-                    <Form.Item name="maxZoom" label="maxZoom" rules={[{ required: false }]}>
-                        <Input />
-                    </Form.Item>
                     <MapComp
                         onCoordinateChange={(coordinate) => {
                             setCenter(coordinate);
