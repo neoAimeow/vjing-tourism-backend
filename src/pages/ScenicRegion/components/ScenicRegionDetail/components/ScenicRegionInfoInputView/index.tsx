@@ -126,6 +126,7 @@ const ScenicRegionInfoView = (props: Props) => {
                                 {languages.map((value) => {
                                     return (
                                         <Radio.Button
+                                            disabled={scenicRegionInfo !== null}
                                             value={value[0]}
                                             onChange={(e) => {
                                                 setInput({ ...inputData, lang: e?.target?.value });

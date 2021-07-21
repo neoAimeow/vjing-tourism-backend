@@ -14,7 +14,10 @@ import { showSelectLocationModal } from "@/utils/modal.config";
 interface Props {}
 
 const CreateScenicRegion = (props: Props) => {
-    const [createSceincRegionMutation, { loading: mutationLoading, error: mutationError, data }] = useMutation(createSceincRegionGql, { onError: (ex) => {} });
+    const [
+        createSceincRegionMutation,
+        { loading: mutationLoading, error: mutationError, data },
+    ] = useMutation(createSceincRegionGql, { onError: (ex) => {} });
     const history = useHistory();
     const [center, setCenter] = useState<LngLatPos>();
 
@@ -44,7 +47,7 @@ const CreateScenicRegion = (props: Props) => {
                     name: result.name,
                     title: result.title,
                     layer: result.layer,
-                    layerDisplayName: result.layerDisplayName,
+                    layersDisplayName: result.layersDisplayName,
                     vrUrl: result.vrUrl,
                     ticketUrl: result.ticketUrl,
                 },
@@ -87,7 +90,7 @@ const CreateScenicRegion = (props: Props) => {
                 <Form.Item name="layer" label="景区layer" rules={[{ required: false }]}>
                     <Input />
                 </Form.Item>
-                <Form.Item name="layerDisplayName" label="景区layer展示名字" rules={[{ required: false }]}>
+                <Form.Item name="layersDisplayName" label="景区layer展示名字" rules={[{ required: false }]}>
                     <Input />
                 </Form.Item>
                 <Form.Item name="vrUrl" label="vr链接" rules={[{ required: false }]}>

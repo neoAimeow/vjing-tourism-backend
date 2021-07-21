@@ -60,7 +60,7 @@ export interface IScenicRegionParam {
 export interface IScenicRegionInfoParam {
     handDrawingUri?: string;
     layer?: string;
-    layerDisplayName?: string;
+    layersDisplayName?: string;
     name: string;
     ticketUrl?: string;
     title?: string;

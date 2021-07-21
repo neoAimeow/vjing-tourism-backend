@@ -14,6 +14,7 @@ export function showScenicRegionInfoModal(
     info({
         title: scenicRegionInfo ? "修改景点信息" : "创建景点信息",
         width: "930px",
+        closable: true,
         content: (
             <ScenicRegionInfoInputView
                 scenicRegionInfo={scenicRegionInfo}

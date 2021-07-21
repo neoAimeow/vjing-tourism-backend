@@ -11,11 +11,15 @@ interface Props {
     alertContent?: string;
     buttonTitle?: string;
     deleteId: string | number;
+    size?: "large" | "small";
 }
 
 const DeleteButton = (props: Props) => {
-    const { deleteGql, refetch, alertContent, deleteId, buttonTitle } = props;
-    const [deleteUserMutation, { loading: deleteLoading, error: deleteError, data: deleteResult }] = useMutation(deleteGql, { onError: (ex) => {} });
+    const { deleteGql, refetch, alertContent, deleteId, buttonTitle, size } = props;
+    const [
+        deleteUserMutation,
+        { loading: deleteLoading, error: deleteError, data: deleteResult },
+    ] = useMutation(deleteGql, { onError: (ex) => {} });
 
     useEffect(() => {
         deleteError && showError(deleteError.message);
@@ -44,8 +48,8 @@ const DeleteButton = (props: Props) => {
         <Button
             className="column-opration-delete"
             type="default"
-            shape="round"
-            size="large"
+            // shape="round"
+            size={size || "large"}
             danger
             onClick={() => {
                 confirm({

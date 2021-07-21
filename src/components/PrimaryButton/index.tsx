@@ -14,7 +14,7 @@ const PrimaryButton = (props: Props) => {
     const { onClick, buttonTitle, size } = props;
 
     return (
-        <Button type="primary" shape="round" size={size || "large"} onClick={onClick}>
+        <Button type="primary" size={size || "large"} onClick={onClick}>
             {buttonTitle || "删除"}
         </Button>
     );

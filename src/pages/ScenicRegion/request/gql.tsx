@@ -117,3 +117,11 @@ export const deleteSceincRegionGql: DocumentNode = gql`
         }
     }
 `;
+
+export const deleteSceincRegionInfoGql: DocumentNode = gql`
+    mutation DeleteSceincRegionInfo($id: String!) {
+        deleteScenicRegionInfo(id: $id) {
+            isSuccess
+        }
+    }
+`;

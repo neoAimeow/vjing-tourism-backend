@@ -10,6 +10,7 @@ import { useEffect } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import {
     createScenicRegionInfoGql,
+    deleteSceincRegionInfoGql,
     scenicRegionDetailGql,
     scenicRegionGql,
     updateScenicRegionInfoGql,
@@ -17,6 +18,7 @@ import {
 import { showScenicRegionInfoModal } from "../../utils/utils";
 import ScenicRegionInfoView from "./components/ScenicRegionInfoView";
 import { $enum } from "ts-enum-util";
+import DeleteButton from "@/components/DeleteButton";
 
 interface Props {}
 
@@ -107,7 +109,7 @@ const ScenicRegionDetail = (props: Props) => {
                                         regionInfoInput: {
                                             handDrawingUri: data.handDrawingUri,
                                             layer: data.layer,
-                                            layerDisplayName: data.layersDisplayName,
+                                            layersDisplayName: data.layersDisplayName,
                                             name: data.name,
                                             ticketUrl: data.ticketUrl,
                                             title: data.title,
@@ -142,31 +144,45 @@ const ScenicRegionDetail = (props: Props) => {
                         style={{ marginTop: 16 }}
                         type="inner"
                         title={$enum(Language).getValueOrDefault(value.lang)}
-                        extra={[
-                            <PrimaryButton
-                                buttonTitle="修改"
-                                size="small"
-                                onClick={() => {
-                                    showScenicRegionInfoModal((data, resolve) => {
-                                        updateScenicRegionInfo({
-                                            variables: {
-                                                id: data.id,
-                                                regionInfoInput: {
-                                                    handDrawingUri: data.handDrawingUri,
-                                                    layer: data.layer,
-                                                    layerDisplayName: data.layersDisplayName,
-                                                    name: data.name,
-                                                    ticketUrl: data.ticketUrl,
-                                                    title: data.title,
-                                                    vrUrl: data.vrUrl,
-                                                },
-                                            },
-                                        });
-                                        resolve(1);
-                                    }, value);
-                                }}
-                            />,
-                        ]}
+                        extra={
+                            <div style={{ display: "flex", flexDirection: "row" }}>
+                                <div>
+                                    <PrimaryButton
+                                        buttonTitle="修改"
+                                        size="small"
+                                        onClick={() => {
+                                            showScenicRegionInfoModal((data, resolve) => {
+                                                updateScenicRegionInfo({
+                                                    variables: {
+                                                        id: data.id,
+                                                        regionInfoInput: {
+                                                            handDrawingUri: data.handDrawingUri,
+                                                            layer: data.layer,
+                                                            layersDisplayName: data.layersDisplayName,
+                                                            name: data.name,
+                                                            ticketUrl: data.ticketUrl,
+                                                            title: data.title,
+                                                            vrUrl: data.vrUrl,
+                                                        },
+                                                    },
+                                                });
+                                                resolve(1);
+                                            }, value);
+                                        }}
+                                    />
+                                </div>
+                                <div style={{ marginLeft: 10 }}>
+                                    <DeleteButton
+                                        size="small"
+                                        buttonTitle="删除语言"
+                                        deleteGql={deleteSceincRegionInfoGql}
+                                        refetch={refetch}
+                                        deleteId={value.id || 0}
+                                        alertContent={`确定要删除${value.lang}该语种的景区信息吗？`}
+                                    />
+                                </div>
+                            </div>
+                        }
                     >
                         <ScenicRegionInfoView scenicRegionInfo={value} />
                     </Card>
