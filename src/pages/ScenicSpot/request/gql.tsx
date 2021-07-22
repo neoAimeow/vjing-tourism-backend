@@ -1,8 +1,22 @@
 import { DocumentNode, gql } from "@apollo/client";
 
 export const scenicSpotGql: DocumentNode = gql`
-    query ScenicSpot($scenicRegionId: String, $after: String, $before: String, $first: Int, $last: Int, $orderBy: ScenicSpotOrder) {
-        scenicSpots(scenicRegionId: $scenicRegionId, after: $after, before: $before, first: $first, last: $last, orderBy: $orderBy) {
+    query ScenicSpot(
+        $scenicRegionId: String
+        $after: String
+        $before: String
+        $first: Int
+        $last: Int
+        $orderBy: ScenicSpotOrder
+    ) {
+        scenicSpots(
+            scenicRegionId: $scenicRegionId
+            after: $after
+            before: $before
+            first: $first
+            last: $last
+            orderBy: $orderBy
+        ) {
             totalCount
             edges {
                 node {
@@ -20,7 +34,12 @@ export const scenicSpotGql: DocumentNode = gql`
 `;
 
 export const createSceincSpotGql: DocumentNode = gql`
-    mutation createSceincSpot($lang: String, $input: CreateScenicSpotinput!, $infoInput: CreateScenicSpotInfoInput!, $scenicRegionId: String) {
+    mutation createSceincSpot(
+        $lang: String
+        $input: CreateScenicSpotinput!
+        $infoInput: CreateScenicSpotInfoInput!
+        $scenicRegionId: String
+    ) {
         createScenicRegion(lang: $lang, input: $input, infoInput: $infoInput, scenicRegionId: $scenicRegionId) {
             id
             scenicRegionId

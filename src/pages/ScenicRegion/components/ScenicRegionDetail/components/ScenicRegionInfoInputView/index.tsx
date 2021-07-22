@@ -12,7 +12,7 @@ interface Props {
     onDataChange?: (scenicRegionInfo: IScenicRegionInfo) => void;
 }
 
-const ScenicRegionInfoView = (props: Props) => {
+const ScenicRegionInfoInputView = (props: Props) => {
     const { scenicRegionInfo, onDataChange } = props;
     const [inputData = scenicRegionInfo, setInput] = useState<IScenicRegionInfo>();
     const languages = $enum(Language).getEntries();
@@ -126,7 +126,7 @@ const ScenicRegionInfoView = (props: Props) => {
                                 {languages.map((value) => {
                                     return (
                                         <Radio.Button
-                                            disabled={scenicRegionInfo !== null}
+                                            disabled={!!scenicRegionInfo}
                                             value={value[0]}
                                             onChange={(e) => {
                                                 setInput({ ...inputData, lang: e?.target?.value });
@@ -145,4 +145,4 @@ const ScenicRegionInfoView = (props: Props) => {
     );
 };
 
-export default ScenicRegionInfoView;
+export default ScenicRegionInfoInputView;

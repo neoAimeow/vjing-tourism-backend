@@ -1,11 +1,11 @@
 import { Language } from "./common";
 export interface IScenicRegion {
-    id: string;
-    createdAt: string;
-    updatedAt: string;
-    displayName: string;
-    locationLat: number;
-    locationLng: number;
+    id?: string;
+    createdAt?: string;
+    updatedAt?: string;
+    displayName?: string;
+    locationLat?: number;
+    locationLng?: number;
 
     enableNavigation?: boolean;
     enablePoiLanguageSwitch?: boolean;

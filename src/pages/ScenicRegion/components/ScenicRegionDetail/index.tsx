@@ -13,9 +13,10 @@ import {
     deleteSceincRegionInfoGql,
     scenicRegionDetailGql,
     scenicRegionGql,
+    updateSceincRegionGql,
     updateScenicRegionInfoGql,
 } from "../../request/gql";
-import { showScenicRegionInfoModal } from "../../utils/utils";
+import { showEditScenicRegionModal, showScenicRegionInfoModal } from "../../utils/utils";
 import ScenicRegionInfoView from "./components/ScenicRegionInfoView";
 import { $enum } from "ts-enum-util";
 import DeleteButton from "@/components/DeleteButton";
@@ -29,6 +30,12 @@ const ScenicRegionDetail = (props: Props) => {
     const history = useHistory();
     const { loading, data, refetch } = useQuery(scenicRegionDetailGql, { variables: { id: state.id || 0 } });
     const [
+        updateScenicRegion,
+        { loading: updateMutationLoading, error: updateMutationError, data: updateMutationData },
+    ] = useMutation(updateSceincRegionGql, {
+        onError: (ex) => {},
+    });
+    const [
         createScenicRegionInfo,
         { loading: createMutationLoading, error: createMutationError, data: createMutationData },
     ] = useMutation(createScenicRegionInfoGql, {
@@ -36,19 +43,26 @@ const ScenicRegionDetail = (props: Props) => {
     });
     const [
         updateScenicRegionInfo,
-        { loading: updateMutationLoading, error: updateMutationError, data: updateMutationData },
+        { loading: updateInfoMutationLoading, error: updateInfoMutationError, data: updateInfoMutationData },
     ] = useMutation(updateScenicRegionInfoGql, {
         onError: (ex) => {},
     });
 
     useEffect(() => {
-        if (updateMutationError) {
-            showError(updateMutationError.message);
+        if (updateInfoMutationError) {
+            showError(updateInfoMutationError.message);
         }
         if (createMutationError) {
             showError(createMutationError.message);
         }
-    }, [updateMutationError, createMutationError]);
+        if (updateMutationError) {
+            showError(updateMutationError.message);
+        }
+    }, [updateInfoMutationError, createMutationError, updateMutationError]);
+
+    useEffect(() => {
+        showLoading(updateInfoMutationLoading);
+    }, [updateInfoMutationLoading]);
 
     useEffect(() => {
         showLoading(updateMutationLoading);
@@ -83,6 +97,18 @@ const ScenicRegionDetail = (props: Props) => {
     }, [updateMutationData]);
 
     useEffect(() => {
+        console.warn(updateInfoMutationData);
+        if (
+            updateInfoMutationData &&
+            updateInfoMutationData.updateScenicRegionInfo &&
+            updateInfoMutationData.updateScenicRegionInfo.id
+        ) {
+            refetch();
+            showSuccess("更新成功");
+        }
+    }, [updateInfoMutationData]);
+
+    useEffect(() => {
         if (data) {
             setScenicRegion(data.scenicRegion);
             setScenicRegionInfos(data.scenicRegion.scenicRegionInfoDtos || []);
@@ -97,39 +123,11 @@ const ScenicRegionDetail = (props: Props) => {
                 title="景区详情"
                 subTitle={state.displayName}
                 extra={[
-                    <PrimaryButton
-                        buttonTitle="添加语言"
-                        onClick={() => {
-                            showScenicRegionInfoModal((data, resolve) => {
-                                console.warn(data);
-                                createScenicRegionInfo({
-                                    variables: {
-                                        lang: data.lang,
-                                        scenicRegionId: state.id,
-                                        regionInfoInput: {
-                                            handDrawingUri: data.handDrawingUri,
-                                            layer: data.layer,
-                                            layersDisplayName: data.layersDisplayName,
-                                            name: data.name,
-                                            ticketUrl: data.ticketUrl,
-                                            title: data.title,
-                                            vrUrl: data.vrUrl,
-                                        },
-                                    },
-                                });
-                                resolve(1);
-                            });
-                        }}
-                    />,
+                    <PrimaryButton buttonTitle="编辑景点类型" onClick={() => {}} />,
+                    <PrimaryButton buttonTitle="管理路线" onClick={() => {}} />,
 
                     <PrimaryButton
-                        buttonTitle="修改景区"
-                        onClick={() => {
-                            history.push({ pathname: "/scenic-region/update", state: state });
-                        }}
-                    />,
-                    <PrimaryButton
-                        buttonTitle="景点列表"
+                        buttonTitle="管理景点"
                         onClick={() => {
                             history.push({ pathname: "/scenic-spot/list", state: state });
                         }}
@@ -138,6 +136,53 @@ const ScenicRegionDetail = (props: Props) => {
             >
                 <ScenicRegionHeader scenicRegion={scenicRegion} />
             </PageHeader>
+            <div className="button-content">
+                <PrimaryButton
+                    buttonTitle="添加语言"
+                    onClick={() => {
+                        showScenicRegionInfoModal((data, resolve) => {
+                            createScenicRegionInfo({
+                                variables: {
+                                    lang: data.lang,
+                                    scenicRegionId: state.id,
+                                    regionInfoInput: {
+                                        handDrawingUri: data.handDrawingUri,
+                                        layer: data.layer,
+                                        layersDisplayName: data.layersDisplayName,
+                                        name: data.name,
+                                        ticketUrl: data.ticketUrl,
+                                        title: data.title,
+                                        vrUrl: data.vrUrl,
+                                    },
+                                },
+                            });
+                            resolve(1);
+                        });
+                    }}
+                />
+                <PrimaryButton
+                    buttonTitle="修改景区"
+                    onClick={() => {
+                        showEditScenicRegionModal((data, resolve) => {
+                            updateScenicRegion({
+                                variables: {
+                                    id: state.id,
+                                    regionInput: {
+                                        displayName: data.displayName,
+                                        enableNavigation: data.enableNavigation,
+                                        enablePoiLanguageSwitch: data.enablePoiLanguageSwitch,
+                                        maxZoom: data.maxZoom,
+                                        minZoom: data.minZoom,
+                                        zoom: data.zoom,
+                                    },
+                                },
+                            });
+                            resolve(1);
+                        }, scenicRegion);
+                    }}
+                />
+                <PrimaryButton buttonTitle="上传覆盖图（处理）" onClick={() => {}} />
+            </div>
             {scenicRegionInfos?.map((value, key) => {
                 return (
                     <Card

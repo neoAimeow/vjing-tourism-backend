@@ -95,8 +95,8 @@ export const createScenicRegionInfoGql: DocumentNode = gql`
 
 export const updateSceincRegionGql: DocumentNode = gql`
     ${scenicRegionFragment}
-    mutation updateSceincRegion($id: String!, $regionInfoInput: CreateScenicRegionInfoInput!) {
-        updateScenicRegion(id: $id, regionInfoInput: $regionInfoInput) {
+    mutation updateScenicRegion($id: String!, $regionInput: UpdateScenicRegionInput!) {
+        updateScenicRegion(id: $id, regionInput: $regionInput) {
             ...ScenicRegionFragment
         }
     }
