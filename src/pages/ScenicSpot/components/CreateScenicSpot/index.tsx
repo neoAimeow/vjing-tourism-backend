@@ -14,7 +14,10 @@ import ScenicRegionHeader from "@/components/ScenicRegionHeader";
 interface Props {}
 
 const CreateScenicSpot = (props: Props) => {
-    const [createSceincRegionMutation, { loading: mutationLoading, error: mutationError, data }] = useMutation(createSceincSpotGql, { onError: (ex) => {} });
+    const [
+        createSceincRegionMutation,
+        { loading: mutationLoading, error: mutationError, data },
+    ] = useMutation(createSceincSpotGql, { onError: (ex) => {} });
     const history = useHistory();
     const { state } = useLocation<IScenicRegion>();
 

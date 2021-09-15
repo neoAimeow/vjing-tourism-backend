@@ -10,6 +10,7 @@ import ScenicRegionDetail from "../pages/ScenicRegion/components/ScenicRegionDet
 import UpdatePassword from "../pages/User/components/UpdatePassword";
 import ScenicSpotList from "@/pages/ScenicSpot/components/ScenicSpotList";
 import CreateScenicSpot from "@/pages/ScenicSpot/components/CreateScenicSpot";
+import ScenicSpotTypeList from "@/pages/ScenicSpotType/components/TypeList";
 
 export interface Router {
     name: string;
@@ -79,5 +80,10 @@ export const router: Router[] = [
         name: "创建景点",
         path: "/scenic-spot/create",
         component: CreateScenicSpot,
+    },
+    {
+        name: "景点类型列表",
+        path: "/scenic-spot-type/list",
+        component: ScenicSpotTypeList,
     },
 ];

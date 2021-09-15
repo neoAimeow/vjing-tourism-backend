@@ -18,6 +18,10 @@ export const menus: Menu[] = [
         path: "/scenic-region/list",
     },
     {
+        title: "景点类型管理",
+        path: "/scenic-spot-type/list",
+    },
+    {
         title: "用户管理",
         path: "/user/list",
     },
