@@ -32,7 +32,7 @@ export const scenicSpotTypesGql: DocumentNode = gql`
     }
 `;
 
-export const scenicSpotDetailGql: DocumentNode = gql`
+export const scenicSpotTypeDetailGql: DocumentNode = gql`
     ${scenicSpotTypeFragment}
     query ScenicSpotType($id: String!) {
         scenicSpotType(id: $id) {
@@ -45,11 +45,11 @@ export const createScenicSpotTypeGql: DocumentNode = gql`
     ${scenicSpotTypeFragment}
     mutation CreateScenicSpotType(
         $lang: String
-        $regionInfoInput: CreateScenicRegionInfoInput!
-        $regionInput: CreateScenicRegionInput!
+        $spotTypeInput: CreateScenicSpotTypeInput!
+        $spotTypeInfoInput: CreateScenicSpotTypeInfoInput!
     ) {
-        createScenicSpotType(lang: $lang, regionInfoInput: $regionInfoInput, regionInput: $regionInput) {
-            ...ScenicRegionFragment
+        createScenicSpotType(lang: $lang, spotTypeInput: $spotTypeInput, spotTypeInfoInput: $spotTypeInfoInput) {
+            ...ScenicSpotTypeFragment
         }
     }
 `;
@@ -59,12 +59,12 @@ export const createScenicSpotTypeInfoGql: DocumentNode = gql`
     mutation CreateScenicSpotType(
         $lang: String!
         $scenicSpotTypeId: String!
-        $regionInfoInput: CreateScenicRegionInfoInput!
+        $spotTypeInfoInput: CreateScenicSpotTypeInfoInput!
     ) {
-        CreateScenicSpotTypeInfoWithLang(
+        createScenicSpotTypeInfoWithLang(
             lang: $lang
             scenicSpotTypeId: $scenicSpotTypeId
-            regionInfoInput: $regionInfoInput
+            spotTypeInfoInput: $spotTypeInfoInput
         ) {
             ...ScenicSpotTypeInfoFragment
         }
@@ -84,7 +84,7 @@ export const updateScenicSpotTypeInfoGql: DocumentNode = gql`
     ${scenicSpotTypeInfoFragment}
     mutation UpdateScenicSpotTypeInfo($id: String!, $spotTypeInfoInput: UpdateScenicSpotTypeInfoInput!) {
         updateScenicSpotTypeInfo(id: $id, spotTypeInfoInput: $spotTypeInfoInput) {
-            ...scenicSpotTypeInfoFragment
+            ...ScenicSpotTypeInfoFragment
         }
     }
 `;

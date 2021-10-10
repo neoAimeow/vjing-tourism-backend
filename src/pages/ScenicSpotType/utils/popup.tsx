@@ -1,30 +1,28 @@
-import { IScenicRegion, IScenicRegionInfo } from "@/models/scenic-region.model";
+import { IScenicSpotType, IScenicSpotTypeInfo } from "@/models/scenic-spot-type.model";
 import { showError } from "@/utils/message.config";
-import { useMutation } from "@apollo/client";
 import { Modal } from "antd";
-import ScenicRegionInfoInputView from "../components/ScenicRegionDetail/components/ScenicRegionInfoInputView";
-import ScenicRegionInputView from "../components/ScenicRegionDetail/components/ScenicRegionInputView";
-import { createScenicRegionInfoGql } from "../request/gql";
-const confirm = Modal.confirm;
+import ScenicSpotTypeInfoInputView from "../components/ScenicSpotTypeDetail/ScenicSpotTypeInfoInputView";
+import ScenicSpotTypeInputView from "../components/ScenicSpotTypeDetail/ScenicSpotTypeInputView";
+
 const info = Modal.info;
-export function showScenicRegionInfoModal(
-    onMutation: (item: IScenicRegionInfo, resolve: (value: any) => void) => void,
-    scenicRegionInfo?: IScenicRegionInfo
+export function showScenicSpotTypeInfoModal(
+    onMutation: (item: IScenicSpotTypeInfo, resolve: (value: any) => void) => void,
+    scenicSpotTypeInfo?: IScenicSpotTypeInfo
 ) {
-    let data: IScenicRegionInfo;
+    let data: IScenicSpotTypeInfo;
     info({
-        title: scenicRegionInfo ? "修改景区信息" : "创建景区信息",
+        title: scenicSpotTypeInfo ? "修改景区信息" : "创建景区信息",
         width: "930px",
         closable: true,
         content: (
-            <ScenicRegionInfoInputView
-                scenicRegionInfo={scenicRegionInfo}
+            <ScenicSpotTypeInfoInputView
+                scenicSpotTypeInfo={scenicSpotTypeInfo}
                 onDataChange={(inner) => {
                     data = inner;
                 }}
             />
         ),
-        okText: scenicRegionInfo ? "修改" : "创建",
+        okText: scenicSpotTypeInfo ? "修改" : "创建",
         cancelText: "取消",
         onOk() {
             return new Promise((resolve, reject) => {
@@ -42,24 +40,24 @@ export function showScenicRegionInfoModal(
     });
 }
 
-export function showEditScenicRegionModal(
-    onMutation: (item: IScenicRegion, resolve: (value: any) => void) => void,
-    scenicRegion?: IScenicRegion
+export function showEditScenicSpotTypeModal(
+    onMutation: (item: IScenicSpotType, resolve: (value: any) => void) => void,
+    scenicSpotType?: IScenicSpotType
 ) {
-    let data: IScenicRegion;
+    let data: IScenicSpotType;
     info({
-        title: scenicRegion ? "修改景点信息" : "创建景点信息",
+        title: "修改景点信息",
         width: "930px",
         closable: true,
         content: (
-            <ScenicRegionInputView
-                scenicRegion={scenicRegion}
+            <ScenicSpotTypeInputView
+                scenicSpotType={scenicSpotType}
                 onDataChange={(inner) => {
                     data = inner;
                 }}
             />
         ),
-        okText: scenicRegion ? "修改" : "创建",
+        okText: "修改",
         cancelText: "取消",
         onOk() {
             return new Promise((resolve, reject) => {

@@ -36,10 +36,12 @@ const DeleteButton = (props: Props) => {
         }
     }, [deleteResult]);
 
-    const deleteButtonClicked = useCallback(() => {
+    const deleteButtonClicked = useCallback((id) => {
+        console.error(`delete id`, id);
+
         deleteUserMutation({
             variables: {
-                id: deleteId || "",
+                id: id || "",
             },
         });
     }, []);
@@ -56,7 +58,7 @@ const DeleteButton = (props: Props) => {
                     title: `再次提醒`,
                     content: alertContent || "确认要删除？",
                     onOk() {
-                        deleteButtonClicked();
+                        deleteButtonClicked(deleteId);
                     },
                 });
             }}

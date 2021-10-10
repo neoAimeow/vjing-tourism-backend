@@ -11,6 +11,9 @@ import UpdatePassword from "../pages/User/components/UpdatePassword";
 import ScenicSpotList from "@/pages/ScenicSpot/components/ScenicSpotList";
 import CreateScenicSpot from "@/pages/ScenicSpot/components/CreateScenicSpot";
 import ScenicSpotTypeList from "@/pages/ScenicSpotType/components/TypeList";
+import CreateScenicSpotType from "@/pages/ScenicSpotType/components/CreateTypeView";
+import UpdateScenicSpotType from "@/pages/ScenicSpotType/components/UpdateTypeView";
+import ScenicSpotTypeDetail from "@/pages/ScenicSpotType/components/ScenicSpotTypeDetail";
 
 export interface Router {
     name: string;
@@ -85,5 +88,20 @@ export const router: Router[] = [
         name: "景点类型列表",
         path: "/scenic-spot-type/list",
         component: ScenicSpotTypeList,
+    },
+    {
+        name: "创建景点类型",
+        path: "/scenic-spot-type/create",
+        component: CreateScenicSpotType,
+    },
+    {
+        name: "更新景点类型",
+        path: "/scenic-spot-type/update",
+        component: UpdateScenicSpotType,
+    },
+    {
+        name: "景点类型详情",
+        path: "/scenic-spot-type/detail",
+        component: ScenicSpotTypeDetail,
     },
 ];

@@ -1,4 +1,5 @@
 import { Language } from "./common";
+
 export interface IScenicSpotType {
     id?: string;
     createdAt?: string;
@@ -8,6 +9,7 @@ export interface IScenicSpotType {
 }
 
 export interface IScenicSpotTypeInfo {
+    id?: string;
     name?: string;
     lang?: Language;
 }

@@ -85,7 +85,6 @@ const ScenicRegionDetail = (props: Props) => {
     }, [createMutationData]);
 
     useEffect(() => {
-        console.warn(updateMutationData);
         if (
             updateMutationData &&
             updateMutationData.updateScenicRegionInfo &&
@@ -97,7 +96,6 @@ const ScenicRegionDetail = (props: Props) => {
     }, [updateMutationData]);
 
     useEffect(() => {
-        console.warn(updateInfoMutationData);
         if (
             updateInfoMutationData &&
             updateInfoMutationData.updateScenicRegionInfo &&

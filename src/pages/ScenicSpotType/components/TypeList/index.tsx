@@ -20,18 +20,16 @@ const { Column } = Table;
 
 const pageSize: number = 10;
 const ScenicSpotTypeList = (props: Props) => {
-    const [scenicSpotTypes, setScenicSpotTypes] = useState<IScenicSpotType[]>();
-    const [total, setTotal] = useState<number>();
+    const [scenicSpotTypeList, setScenicSpotTypes] = useState<IScenicSpotType[]>();
 
-    const { loading, data, refetch } = useQuery(scenicSpotTypesGql);
+    const { loading, data, refetch } = useQuery(scenicSpotTypesGql, {});
 
     let history = useHistory();
 
     useEffect(() => {
         if (data) {
-            console.warn(data);
-            const { scenicRegionType } = data;
-            setScenicSpotTypes(scenicRegionType);
+            const { scenicSpotTypes } = data;
+            setScenicSpotTypes(scenicSpotTypes);
         }
     }, [data]);
 
@@ -39,38 +37,38 @@ const ScenicSpotTypeList = (props: Props) => {
         <div className="scenic-region-list">
             <PageHeader
                 ghost={false}
-                title="景点分类管理"
-                subTitle="景点分类列表"
+                title="景点分类"
+                subTitle="列表"
                 extra={[
                     <PrimaryButton
                         buttonTitle="创建分类"
                         onClick={() => {
-                            history.push("/scenic-region/create");
+                            history.push("/scenic-spot-type/create");
                         }}
                     />,
                 ]}
             />
 
-            <Table loading={loading} dataSource={scenicSpotTypes || []} rowKey={(item) => item.id || 0}>
-                <Column title="景区类型id" dataIndex={["node", "id"]} width="350px" />
-                <Column title="景区类型名字" dataIndex={["node", "displayName"]} width="350px" />
-                <Column title="景区类型图标地址" dataIndex={["node", "displayName"]} width="350px" />
+            <Table loading={loading} dataSource={scenicSpotTypeList || []} rowKey={(item) => item.id || 0}>
+                <Column title="景点类型id" dataIndex="id" width="100px" />
+                <Column title="类型名字" dataIndex="displayName" width="150px" />
+                <Column title="景点类型Icon地址" dataIndex="icon" width="250px" />
                 <Column
                     title="操作"
-                    width="350px"
+                    width="300px"
                     render={(edge) => (
                         <div className="column-opertaion">
                             <PrimaryButton
                                 buttonTitle="查看详请"
                                 onClick={() => {
-                                    history.push({ pathname: "/scenic-region/detail", state: edge?.node });
+                                    history.push({ pathname: "/scenic-spot-type/detail", state: edge });
                                 }}
                             />
                             <DeleteButton
-                                buttonTitle="删除类型"
+                                buttonTitle="删除景点类型"
                                 deleteGql={deleteScenicSpotTypeGql}
-                                deleteId={edge?.node?.id}
-                                alertContent={`是否确定要删除${edge?.node?.displayName}这个景区?`}
+                                deleteId={edge?.id}
+                                alertContent={`是否确定要删除${edge?.displayName}这个景点类型?`}
                                 refetch={() => {
                                     refetch();
                                 }}

@@ -1,4 +1,4 @@
-import { showError, showLoading } from "@/utils/message.config";
+import { showError, showLoading, showSuccess } from "@/utils/message.config";
 import { useMutation } from "@apollo/client";
 import { Button, Descriptions, Form, Input, PageHeader, Select, Switch } from "antd";
 import React, { useCallback, useEffect } from "react";
@@ -28,6 +28,17 @@ const CreateScenicRegion = (props: Props) => {
     useEffect(() => {
         showLoading(mutationLoading);
     }, [mutationLoading]);
+
+    useEffect(() => {
+        if (data) {
+            const { createScenicRegion = {} } = data;
+            if (createScenicRegion.id) {
+                showSuccess("创建景区成功", () => {
+                    history.goBack();
+                });
+            }
+        }
+    }, [data]);
 
     const onFinish = useCallback((result) => {
         console.warn(JSON.stringify(result));
