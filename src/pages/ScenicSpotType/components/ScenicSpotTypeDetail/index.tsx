@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./index.scss";
 
 interface Props {}
-import { Table, Tag, Space, Button, Typography, Modal, PageHeader, Card } from "antd";
+import { PageHeader, Card } from "antd";
 
 import { useHistory, Link, useLocation } from "react-router-dom";
 import PrimaryButton from "@/components/PrimaryButton";
@@ -24,11 +24,6 @@ import { showEditScenicSpotTypeModal, showScenicSpotTypeInfoModal } from "../../
 import { showError, showLoading, showSuccess } from "@/utils/message.config";
 import ScenicSpotTypeHeader from "@/components/ScenicSpotTypeHeader";
 
-const { Title, Paragraph, Text } = Typography;
-const { confirm } = Modal;
-const { Column } = Table;
-
-const pageSize: number = 10;
 const ScenicSpotTypeDetail = (props: Props) => {
     let history = useHistory();
     const { state } = useLocation<IScenicSpotType>();
