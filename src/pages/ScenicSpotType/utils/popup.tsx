@@ -46,7 +46,7 @@ export function showEditScenicSpotTypeModal(
 ) {
     let data: IScenicSpotType;
     info({
-        title: "修改景点信息",
+        title: "修改景点类型信息",
         width: "930px",
         closable: true,
         content: (
