@@ -22,7 +22,9 @@ const ScenicSpotList = (props: Props) => {
     let history = useHistory();
     const { state } = useLocation<IScenicRegion>();
     //www.apollographql.com/docs/react/pagination/core-api/
-    const { loading, data, refetch } = useQuery(scenicSpotGql, { variables: { ...variables, scenicRegionId: state.id || 0 } });
+    const { loading, data, refetch } = useQuery(scenicSpotGql, {
+        variables: { ...variables, scenicRegionId: state.id || 0 },
+    });
 
     useEffect(() => {
         if (data) {
@@ -63,7 +65,7 @@ const ScenicSpotList = (props: Props) => {
                     />,
                 ]}
             >
-                <Descriptions labelStyle={{ fontWeight: 600 }} size="small" column={2}>
+                <Descriptions labelStyle={{ fontWeight: 600 }} size="small" column={3}>
                     <Descriptions.Item label="景区id">{state.id}</Descriptions.Item>
                     <Descriptions.Item label="景区名字">{state.displayName}</Descriptions.Item>
                     <Descriptions.Item label="创建时间">{state.createdAt}</Descriptions.Item>

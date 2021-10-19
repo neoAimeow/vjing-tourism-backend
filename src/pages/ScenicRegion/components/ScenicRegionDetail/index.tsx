@@ -121,15 +121,13 @@ const ScenicRegionDetail = (props: Props) => {
                 title="景区详情"
                 subTitle={state.displayName}
                 extra={[
-                    <PrimaryButton buttonTitle="编辑景点类型" onClick={() => {}} />,
-                    <PrimaryButton buttonTitle="管理路线" onClick={() => {}} />,
-
                     <PrimaryButton
                         buttonTitle="管理景点"
                         onClick={() => {
                             history.push({ pathname: "/scenic-spot/list", state: state });
                         }}
                     />,
+                    <PrimaryButton buttonTitle="管理路线" onClick={() => {}} />,
                 ]}
             >
                 <ScenicRegionHeader scenicRegion={scenicRegion} />
@@ -158,6 +156,7 @@ const ScenicRegionDetail = (props: Props) => {
                         });
                     }}
                 />
+                &nbsp;&nbsp;
                 <PrimaryButton
                     buttonTitle="修改景区"
                     onClick={() => {
@@ -179,6 +178,7 @@ const ScenicRegionDetail = (props: Props) => {
                         }, scenicRegion);
                     }}
                 />
+                &nbsp;&nbsp;
                 <PrimaryButton buttonTitle="上传覆盖图（处理）" onClick={() => {}} />
             </div>
             {scenicRegionInfos?.map((value, key) => {

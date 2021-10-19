@@ -7,10 +7,11 @@ import { getQiniuTokenGql } from "./gql";
 
 interface Props {
     imageUploadedCallback?: (imageUrl: string) => void;
+    fileSize?: number /** mb单位， 默认为1 */;
 }
 
 const UploadImage = (props: Props) => {
-    const { imageUploadedCallback } = props;
+    const { imageUploadedCallback, fileSize } = props;
 
     const [imageUrl, setImageUrl] = useState<string>("");
     const [token, setToken] = useState<string>();
@@ -29,9 +30,9 @@ const UploadImage = (props: Props) => {
         if (!isPng) {
             showError("只能上传PNG");
         }
-        const isLt2M = file.size / 1024 / 1024 < 1;
+        const isLt2M = file.size / 1024 / 1024 < (fileSize || 1);
         if (!isLt2M) {
-            showError("Image must smaller than 1MB!");
+            showError(`图片大小必须小于${fileSize || 1}MB`);
         }
         return isPng && isLt2M;
     }, []);

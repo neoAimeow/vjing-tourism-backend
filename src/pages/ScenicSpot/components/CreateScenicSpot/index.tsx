@@ -61,7 +61,7 @@ const CreateScenicSpot = (props: Props) => {
             <Form
                 initialValues={{}}
                 labelCol={{
-                    span: 2,
+                    span: 3,
                 }}
                 wrapperCol={{
                     span: 9,
