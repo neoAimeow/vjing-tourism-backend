@@ -10,10 +10,12 @@ import MapComp from "@/components/MapComp";
 import { IScenicRegion } from "@/models/scenic-region.model";
 import ScenicRegionHeader from "@/components/ScenicRegionHeader";
 import { createScenicSpotTypeGql } from "../../request/gql";
+import UploadImage from "@/components/UploadImage";
 
 interface Props {}
 
 const CreateScenicSpotType = (props: Props) => {
+    const [icon, setIcon] = useState<string>("");
     const [
         CreateScenicSpotTypeMutation,
         { loading: mutationLoading, error: mutationError, data },
@@ -31,7 +33,6 @@ const CreateScenicSpotType = (props: Props) => {
 
     useEffect(() => {
         if (data) {
-            console.error(1111, JSON.stringify(data));
             const { createScenicSpotType = {} } = data;
             if (createScenicSpotType.id) {
                 showSuccess("创建景点分类成功", () => {
@@ -41,20 +42,26 @@ const CreateScenicSpotType = (props: Props) => {
         }
     }, [data]);
 
-    const onFinish = useCallback((result) => {
-        console.warn(JSON.stringify(result));
-        CreateScenicSpotTypeMutation({
-            variables: {
-                spotTypeInput: {
-                    displayName: result.name || "",
-                    icon: result.icon || "",
+    const onFinish = useCallback(
+        (result) => {
+            if (!icon) {
+                showError("图片未上传");
+                return;
+            }
+            CreateScenicSpotTypeMutation({
+                variables: {
+                    spotTypeInput: {
+                        displayName: result.name || "",
+                        icon: icon || "",
+                    },
+                    spotTypeInfoInput: {
+                        name: result.name || "",
+                    },
                 },
-                spotTypeInfoInput: {
-                    name: result.name || "",
-                },
-            },
-        });
-    }, []);
+            });
+        },
+        [icon]
+    );
 
     const onFinishFailed = useCallback((error) => {
         const { values, errorFields = [] } = error || {};
@@ -87,7 +94,12 @@ const CreateScenicSpotType = (props: Props) => {
                 </Form.Item>
 
                 <Form.Item name="icon" label="景点分类icon地址" rules={[{ required: false }]}>
-                    <Input />
+                    <UploadImage
+                        imageUploadedCallback={(imageUrl) => {
+                            console.error(2222, imageUrl);
+                            setIcon(imageUrl);
+                        }}
+                    />
                 </Form.Item>
 
                 <Form.Item>

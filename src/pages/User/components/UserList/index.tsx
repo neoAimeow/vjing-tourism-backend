@@ -9,7 +9,12 @@ import { deleteUserGql, usersGql } from "../../request/gql";
 import { showError, showLoading, showSuccess } from "@/utils/message.config";
 import { useState } from "react";
 import { PaginationArgs } from "@/models/common";
-import { changePageVariable, initialPageVariable, nextPageVariable, previousPageVariable } from "@/config/pagination.config";
+import {
+    changePageVariable,
+    initialPageVariable,
+    nextPageVariable,
+    previousPageVariable,
+} from "@/config/pagination.config";
 import DeleteButton from "@/components/DeleteButton";
 import PrimaryButton from "@/components/PrimaryButton";
 const { confirm } = Modal;
@@ -48,7 +53,7 @@ const UserList = (props: Props) => {
                 })
             );
         },
-        [variables, userList]
+        [variables, userList, data]
     );
 
     return (
