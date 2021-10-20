@@ -1,4 +1,4 @@
-import { showError, showLoading, showSuccess } from "@/utils/message.config";
+import { showError, showLoading, showSuccess } from "@/utils/message";
 import { Button, Modal } from "antd";
 import React, { useEffect } from "react";
 import { useCallback } from "react";

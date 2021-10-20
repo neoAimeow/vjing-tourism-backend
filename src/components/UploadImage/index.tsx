@@ -1,7 +1,7 @@
 import { Upload, message } from "antd";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import { useCallback, useEffect, useState } from "react";
-import { showError } from "@/utils/message.config";
+import { showError } from "@/utils/message";
 import { useQuery } from "@apollo/client";
 import { getQiniuTokenGql } from "./gql";
 

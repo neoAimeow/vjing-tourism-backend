@@ -3,7 +3,7 @@ import { Button, Form, Input, Modal, PageHeader, Radio, Switch, notification, me
 import React, { useCallback } from "react";
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { hideLoading, showError, showLoading, showSuccess } from "@/utils/message.config";
+import { hideLoading, showError, showLoading, showSuccess } from "@/utils/message";
 import { createUserGql } from "../../request/gql";
 const { confirm } = Modal;
 

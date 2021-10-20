@@ -3,7 +3,7 @@ import { apolloClient } from "@/config/request.config";
 import { Language } from "@/models/common";
 import { IScenicRegion, IScenicRegionInfo } from "@/models/scenic-region.model";
 import { createScenicRegionInfoGql } from "@/pages/ScenicRegion/request/gql";
-import { showError, showLoading } from "@/utils/message.config";
+import { showError, showLoading } from "@/utils/message";
 import { ApolloProvider, useMutation } from "@apollo/client";
 import { Card, Col, Descriptions, Form, Input, PageHeader, Radio, Row } from "antd";
 import React, { useCallback, useEffect, useState } from "react";
@@ -118,7 +118,7 @@ const ScenicRegionInfoInputView = (props: Props) => {
                         <Col span={10}>
                             <Form.Item name="layer" label="景区layer">
                                 <UploadImage
-                                    fileSize={3}
+                                    fileSize={20}
                                     imageUploadedCallback={(imageUrl) => {
                                         setInput({ ...inputData, layer: imageUrl });
                                     }}

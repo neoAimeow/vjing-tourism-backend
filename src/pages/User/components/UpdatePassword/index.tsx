@@ -1,4 +1,4 @@
-import { showError, showLoading } from "@/utils/message.config";
+import { showError, showLoading } from "@/utils/message";
 import { useMutation } from "@apollo/client";
 import { Button, Form, Input, Modal, PageHeader, Radio, Switch } from "antd";
 import React, { useCallback, useEffect } from "react";
@@ -9,7 +9,10 @@ const { confirm } = Modal;
 interface Props {}
 
 const UpdatePassword = (props: Props) => {
-    const [changePasswordMutation, { loading: mutationLoading, error: mutationError }] = useMutation(changePasswordGql, { onError: (ex) => {} });
+    const [changePasswordMutation, { loading: mutationLoading, error: mutationError }] = useMutation(
+        changePasswordGql,
+        { onError: (ex) => {} }
+    );
     const history = useHistory();
 
     useEffect(() => {

@@ -1,5 +1,5 @@
 import { IScenicSpotType, IScenicSpotTypeInfo } from "@/models/scenic-spot-type.model";
-import { showError } from "@/utils/message.config";
+import { showError } from "@/utils/message";
 import { Modal } from "antd";
 import ScenicSpotTypeInfoInputView from "../components/ScenicSpotTypeDetail/ScenicSpotTypeInfoInputView";
 import ScenicSpotTypeInputView from "../components/ScenicSpotTypeDetail/ScenicSpotTypeInputView";

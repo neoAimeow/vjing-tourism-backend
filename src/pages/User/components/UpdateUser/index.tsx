@@ -2,7 +2,7 @@ import { useMutation } from "@apollo/client";
 import { Button, Form, Input, Modal, PageHeader, Radio, Switch } from "antd";
 import React, { useCallback, useEffect } from "react";
 import { useHistory, useLocation } from "react-router-dom";
-import { showError, showLoading } from "../../../../utils/message.config";
+import { showError, showLoading } from "../../../../utils/message";
 import { IUser } from "../../model/user.model";
 import { updateUserGql } from "../../request/gql";
 const { confirm } = Modal;
@@ -10,7 +10,9 @@ const { confirm } = Modal;
 interface Props {}
 
 const UpdateUser = (props: Props) => {
-    const [updateUserMutation, { loading: mutationLoading, error: mutationError }] = useMutation(updateUserGql, { onError: (ex) => {} });
+    const [updateUserMutation, { loading: mutationLoading, error: mutationError }] = useMutation(updateUserGql, {
+        onError: (ex) => {},
+    });
     const history = useHistory();
 
     useEffect(() => {
@@ -54,7 +56,14 @@ const UpdateUser = (props: Props) => {
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
             >
-                <Form.Item name="name" label="用户名字" rules={[{ required: false }, { type: "string", min: 2, max: 5, message: "名字需要控制在2到5个字符内" }]}>
+                <Form.Item
+                    name="name"
+                    label="用户名字"
+                    rules={[
+                        { required: false },
+                        { type: "string", min: 2, max: 5, message: "名字需要控制在2到5个字符内" },
+                    ]}
+                >
                     <Input />
                 </Form.Item>
                 <Form.Item name="role" label="权限" rules={[{ required: false }]}>

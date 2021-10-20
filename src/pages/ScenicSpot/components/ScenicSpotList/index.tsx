@@ -65,7 +65,7 @@ const ScenicSpotList = (props: Props) => {
                     />,
                 ]}
             >
-                <Descriptions labelStyle={{ fontWeight: 600 }} size="small" column={3}>
+                <Descriptions labelStyle={{ fontWeight: 600 }} size="small" column={2}>
                     <Descriptions.Item label="景区id">{state.id}</Descriptions.Item>
                     <Descriptions.Item label="景区名字">{state.displayName}</Descriptions.Item>
                     <Descriptions.Item label="创建时间">{state.createdAt}</Descriptions.Item>

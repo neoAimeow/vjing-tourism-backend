@@ -6,7 +6,7 @@ import { useCallback } from "react";
 import { useHistory } from "react-router-dom";
 import { IUser, IUserNode, IUserPagination } from "../../model/user.model";
 import { deleteUserGql, usersGql } from "../../request/gql";
-import { showError, showLoading, showSuccess } from "@/utils/message.config";
+import { showError, showLoading, showSuccess } from "@/utils/message";
 import { useState } from "react";
 import { PaginationArgs } from "@/models/common";
 import {

@@ -1,7 +1,7 @@
 import { Language } from "@/models/common";
 import { IScenicRegion, IScenicRegionInfo } from "@/models/scenic-region.model";
 import { createScenicRegionInfoGql } from "@/pages/ScenicRegion/request/gql";
-import { showError, showLoading } from "@/utils/message.config";
+import { showError, showLoading } from "@/utils/message";
 import { useMutation } from "@apollo/client";
 import { Card, Col, Descriptions, Form, Input, PageHeader, Radio, Row, Switch } from "antd";
 import React, { useCallback, useEffect, useState } from "react";

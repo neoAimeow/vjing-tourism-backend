@@ -1,4 +1,4 @@
-import { showError, showLoading } from "@/utils/message.config";
+import { showError, showLoading } from "@/utils/message";
 import { useMutation } from "@apollo/client";
 import { Button, Form, Input, PageHeader } from "antd";
 import React, { useCallback, useEffect } from "react";

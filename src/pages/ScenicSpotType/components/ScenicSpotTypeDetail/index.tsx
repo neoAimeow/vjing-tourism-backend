@@ -21,7 +21,7 @@ import { $enum } from "ts-enum-util";
 import DeleteButton from "@/components/DeleteButton";
 import ScenicSpotTypeInfoView from "./ScenicSpotTypeInfoView";
 import { showEditScenicSpotTypeModal, showScenicSpotTypeInfoModal } from "../../utils/popup";
-import { showError, showLoading, showSuccess } from "@/utils/message.config";
+import { showError, showLoading, showSuccess } from "@/utils/message";
 import ScenicSpotTypeHeader from "@/components/ScenicSpotTypeHeader";
 
 const ScenicSpotTypeDetail = (props: Props) => {

@@ -1,5 +1,5 @@
 import { IScenicRegion, IScenicRegionInfo } from "@/models/scenic-region.model";
-import { showError } from "@/utils/message.config";
+import { showError } from "@/utils/message";
 import { useMutation } from "@apollo/client";
 import { Modal } from "antd";
 import ScenicRegionInfoInputView from "../components/ScenicRegionDetail/components/ScenicRegionInfoInputView";

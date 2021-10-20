@@ -2,7 +2,7 @@ import PrimaryButton from "@/components/PrimaryButton";
 import ScenicRegionHeader from "@/components/ScenicRegionHeader";
 import { Language } from "@/models/common";
 import { IScenicRegion, IScenicRegionInfo } from "@/models/scenic-region.model";
-import { showError, showLoading, showSuccess } from "@/utils/message.config";
+import { showError, showLoading, showSuccess } from "@/utils/message";
 import { useMutation, useQuery } from "@apollo/client";
 import { Card, PageHeader } from "antd";
 import React, { useState } from "react";

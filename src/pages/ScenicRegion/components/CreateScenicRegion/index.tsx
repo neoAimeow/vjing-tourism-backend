@@ -1,4 +1,4 @@
-import { showError, showLoading, showSuccess } from "@/utils/message.config";
+import { showError, showLoading, showSuccess } from "@/utils/message";
 import { useMutation } from "@apollo/client";
 import { Button, Descriptions, Form, Input, PageHeader, Select, Switch } from "antd";
 import React, { useCallback, useEffect } from "react";
@@ -9,7 +9,7 @@ import { createSceincRegionGql } from "../../request/gql";
 import { useState } from "react";
 import MapComp from "@/components/MapComp";
 import PrimaryButton from "@/components/PrimaryButton";
-import { showSelectLocationModal } from "@/utils/modal.config";
+import { showSelectLocationModal } from "@/utils/modal";
 
 interface Props {}
 
