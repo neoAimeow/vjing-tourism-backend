@@ -1,0 +1,57 @@
+.map-container {
+}
+
+// <div className="coordinate-input-container">
+// <div className="coordinate-input">
+//     <div className="coordinate-input-title">输入Latitude</div>
+//     <Input className="coordinate-input-component" />
+// </div>
+// <div>
+//     <div className="coordinate-input-title">输入Longitude</div>
+//     <Input className="coordinate-input-component" />
+// </div>
+// </div>
+
+.coordinate-input-container {
+    margin-bottom: 10px;
+
+    .coordinate-input {
+        // display: flex;
+        // flex-direction: row;
+        // align-items: center;
+        margin-bottom: 10px;
+
+        &-title {
+            display: flex;
+            flex-direction: row;
+            text-align: center;
+            font-weight: 700;
+        }
+        &-component {
+            width: 100;
+        }
+    }
+}
+
+.coordinate-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    .coordinate-label {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        .coordinate-title {
+            display: flex;
+            flex-direction: row;
+            text-align: center;
+            font-weight: 700;
+        }
+        .coordinate-content {
+            display: flex;
+            flex-direction: row;
+            margin-left: 5px;
+        }
+    }
+}

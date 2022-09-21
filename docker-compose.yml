@@ -1,0 +1,22 @@
+version: "3.7"
+services:
+    vjing-backend-test:
+        container_name: vjing-backend-test
+        image: "aimeow/vjing-backend-test:0.0.${BUILD_VERSION}"
+        restart: always
+        env_file:
+            - .env
+        labels:
+            - "traefik.enable=true"
+            - "traefik.tcp.routers.vjing-backend-test.entrypoints=websecure"
+            - "traefik.http.routers.vjing-backend-test.rule=Host(`vjing-backend-test.aimeow.com`)"
+            - "traefik.http.routers.vjing-backend-test.entrypoints=websecure"
+            - "traefik.http.routers.vjing-backend-test.tls.certresolver=letsencryptresolver"
+            - "traefik.http.routers.vjing-backend-test.service=vjing-backend-test"
+            - "traefik.http.services.vjing-backend-test.loadbalancer.server.port=3000"
+        networks:
+            - traefik-public
+
+networks:
+    traefik-public:
+        external: true

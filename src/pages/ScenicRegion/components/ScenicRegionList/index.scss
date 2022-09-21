@@ -1,0 +1,15 @@
+.scenic-region-list {
+    position: relative;
+    &-header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+}
+
+.column-opertaion {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+}
